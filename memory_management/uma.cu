@@ -48,16 +48,22 @@ void test_cudaMallocManaged(int dev, int ipower) {
 
     // allocate memory
     float *g_A, *g_B, *g_C;
+    float *g_D, *g_E, *g_F;
     // unsigned int flags = cudaMemAttachHost;
     unsigned int flags = cudaMemAttachGlobal;
     int ret1 = cudaMallocManaged(&g_A, nBytes, flags);
     int ret2 = cudaMallocManaged(&g_B, nBytes, flags);
     int ret3 = cudaMallocManaged(&g_C, nBytes, flags);
-    printf("===== %d %d %d\n", ret1, ret2, ret3);
+    int ret4 = cudaMallocManaged(&g_D, nBytes, flags);
+    int ret5 = cudaMallocManaged(&g_E, nBytes, flags);
+    int ret6 = cudaMallocManaged(&g_F, nBytes, flags);
+    printf("===== %d %d %d %d %d %d\n", ret1, ret2, ret3, ret4, ret5, ret6);
 
     printf("===== inital data begins...\n");
     initialData(g_A, nElem, 2.0f);
     initialData(g_B, nElem, 2.0f);
+    initialData(g_D, nElem, 2.0f);
+    initialData(g_E, nElem, 2.0f);
     printf("===== synchronize begins...\n");
     cudaDeviceSynchronize();
 
@@ -68,6 +74,8 @@ void test_cudaMallocManaged(int dev, int ipower) {
     // Kernel invocation with N threads
     vecAdd<<<numBlocks, threadsPerBlock>>>(g_A, g_B, g_C);
     cudaDeviceSynchronize();
+    vecAdd<<<numBlocks, threadsPerBlock>>>(g_D, g_E, g_F);
+    cudaDeviceSynchronize();
 
     printf("===== check the results...\n");
 
@@ -76,8 +84,12 @@ void test_cudaMallocManaged(int dev, int ipower) {
     printf("===== ans is %f\n", ans);
     for (i = 0; i < nElem; i++) {
         if (g_C[i] != ans) {
-            printf("Result %lld is error, error value is %3.0f\n", i, g_C[i]);
-            // break;
+            printf("Result g_C[%lld] is error, error value is %3.0f\n", i, g_C[i]);
+            break;
+        }
+        if (g_F[i] != ans) {
+            printf("Result g_F[%lld] is error, error value is %3.0f\n", i, g_F[i]);
+            break;
         }
         // printf("Result g_C[%lld] value is %3.0f\n", i, g_C[i]);
     }
@@ -85,6 +97,9 @@ void test_cudaMallocManaged(int dev, int ipower) {
     cudaFree(g_A);
     cudaFree(g_B);
     cudaFree(g_C);
+    cudaFree(g_D);
+    cudaFree(g_E);
+    cudaFree(g_F);
     cudaDeviceReset();
 
 }
