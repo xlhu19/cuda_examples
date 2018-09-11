@@ -1,0 +1,165 @@
+*** Thought
+    There should be one and preferably only one obvious way to do it.
+
+*** Identifier
+    1. letter, number, underscore
+    2. do not start with number
+    3. case sensitive
+    4. special usage:
+       _xxx
+       __xxx
+       __xxx__
+
+*** Reserved characters (30)
+    and     assert      break   class   continue
+    def     del         elif    else    except
+    exec    finally     for     from    global
+    if      import      in      is      lambda
+    not     or          pass    print   raise
+    return  try         while   with    yield
+
+*** Built-in Functions
+    open
+    len
+    list
+    enumerate
+    enumerate(sequence, [start=0])
+    set
+
+*** Variables (6)
+    Number
+ 	String
+ 	List
+ 	Tuple
+ 	Dictionary
+ 	Class
+
+*** Variable Scope
+    1. Variable defined in "def,class,lambda" is local
+    2. Variable defined in if/else/while/for/try/finally anywhere else is global.
+    3. If need to use global variable, use "global xxx" in "def, class"
+    4. First search local, if not found, search global
+
+*** Rules
+    Use unified indent
+    Multiple lines
+        -> use '\'
+        -> [], {}, () do not need a '\'
+    ', ", ''', """, has the same usage for a string.
+    ''', """ are for multiple line string.
+    '#' is used for notation, at first or end of a line
+    put multiple statement into one line, use ";"
+
+*** Class
+    class definition
+        class Point:
+            def __init__(self, x=0, y=0):
+                self.x = x
+                self.y = y
+            def __del__(self):
+                class_name = self.__class__.__name__
+                print(class_name, "destroyed")
+
+    class inherit
+        class Child(Parent):
+            def __init__(self):
+                print("Calling child constructor")
+            def childMethod(self):
+                print('Calling child method')
+
+        1. Child class inherits members and functions of multiple parent classes.
+        2. When initializes a child class instance, it does not invoke parent construction function auto.
+           Use super().__init__() manually
+        3. All class inherits object
+        4. Function override
+        5. isinstance
+
+*** python arguments
+    class Person():
+        def __init__(self, name, gender, birth, **kw):
+            self.name=name
+            self.gender=gender
+            self.birth=birth
+            for k,w in kw.iteritems():
+                setattr(self, k, w)
+
+    Don't use a variable object (such as list or dictionary) as the default value of
+    an argument of fucntion. Because the default value is eval when compile, instead when be invoked.
+
+*** Python Special Functions
+
+    __init__()
+    __del__()
+    __enter__()
+    __exit__()
+    __main__()
+
+    if __name__ == '__main__':
+        print("The script followed will run if execute this py alonely.")
+        print("The script followed will not run if the other py import this py.")
+
+*** Support Chinese
+    Add the following line at the beginning of a file.
+    #coding:utf-8
+
+*** Add Python Path
+
+    export PYTHONPATH=
+    export PYTHON_LIBRARY_PATH=
+    Python will search for a module in the following path:
+    1. current path
+    2. PYTHONPATH
+    3. /usr/local/lib/python2.x/
+
+*** Closure & Decorate
+    closure function:
+        def foo(xx):
+            def closure(yy):
+                print(xx*yy)
+            return closure
+        1. function in function
+        2. use varible outside of function.
+
+    Decorate:
+        @deco1(deco_arg) 
+        @deco2
+        def func():
+            pass
+
+        The above code equals to:
+        def func():
+            pass
+        func = deco1(deco_arg)(deco2(func)) 
+
+*** Package
+    must have __init__.py
+
+*** Modules
+    numpy       -   scientific calculation
+    matplotlib  -   Python 2D plotting library
+    pickle      -   save and load object to/from file.
+
+
+*** multi thread
+
+*** switch
+    result = {
+        'a': lambda x: x * 5,
+        'b': lambda x: x + 7,
+        'c': lambda x: x - 2
+    }[value](x) 
+
+*** Tools
+
+    IPython
+    Jupyter Notebook
+    anaconda  -   A distributed version of python.
+
+*** Issues
+    from PIL import Image
+    (Should "pip install pillow")
+
+    # Steps to install pip3
+        yum install python34 -y
+        wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
+        python3 get-pip.py

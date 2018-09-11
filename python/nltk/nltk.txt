@@ -1,0 +1,6 @@
+
+
+# Specify the dir for nltk data
+export NLTK_DATA=/root/nltk_data
+
+

@@ -1,0 +1,83 @@
+*** Kafka Overview
+    Kafka is used for building real-time data pipelines and streaming apps.
+    It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.
+
+*** Kafka Installation
+    # source
+        wget http://mirror.its.dal.ca/apache/kafka/0.10.2.1/kafka-0.10.2.1-src.tgz
+    # binary
+        wget http://archive.apache.org/dist/kafka/0.10.0.0/kafka_2.11-0.10.0.0.tgz
+
+*** Kafka Config
+    vim config/server.properties    
+        broker.id=0                 -   unique for each broker
+        delete.topic.enable=true    -   enable topic deletion or not
+        num.io.threads=8            -   the number of threads doing disk I/O
+        log.dirs=/tmp/kafka-logs    -   list of directories under which to store log files
+        num.partitions=20           -   number of log partitions per topic, more partitions allow greater parallelism for consumption
+        log.retention.hours=168     -   the minimum age of a log file to be eligible for deletion due to age(7*24)
+
+        listeners=PLAINTEXT://:9092 -   specify the listener, this is important when find connection issue
+
+*** Kafka Commands
+    cd kafka
+
+    bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+    bin/kafka-server-start.sh -daemon config/server.properties
+
+    bin/kafka-server-stop.sh
+    bin/zookeeper-server-stop.sh
+    
+    bin/zookeeper-server-start.sh config/zookeeper.properties
+    bin/kafka-server-start.sh config/server.properties
+    
+    bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+        create a topic
+    bin/kafka-topics.sh --list --zookeeper localhost:2181
+        list topics
+    bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic test
+        show topic details
+    bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic test
+        delete topic
+
+    bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+        start a producer
+
+    bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
+        start a consumer
+    bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+        start a consumer from the beginning, will show all topic items
+
+    bin/kafka-consumer-offset-checker.sh --zookeeper localhost:2181 --topic events --group root
+
+    bin/kafka-consumer-groups.sh --zookeeper localhost:2181 --list
+
+    bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic events --time -1
+        show offset for all partitions
+
+
+*** Kafka Spark Pragramming
+    val df = spark.readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "<server:ip")
+      .option("subscribe", "topic1")     
+      .option("startingOffsets", "latest")  
+      .option("minPartitions", "10")  
+      .option("failOnDataLoss", "true")
+      .load()
+
+    val df = spark.readStream
+      .format("rate")
+      .option("rowsPerSecond", "1000")
+      .option("numPartitions", "20")
+      .option("rampUpTime", "5s")
+      .load()
+      .selectExpr("CAST(uuid AS STRING) AS key", "to_json(struct(*)) AS value").
+      writeStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", kafkaCluster.kafkaNodesString)
+      .option("topic", Variables.EVENTS_TOPIC)
+      .option("checkpointLocation", s"/tmp/${java.util.UUID.randomUUID()}")
+      .outputMode("update")
+      .start()
+

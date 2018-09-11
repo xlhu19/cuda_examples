@@ -1,0 +1,33 @@
+
+# Connect to mysql
+mysql -h HOST -u USER -p
+
+# Command
+mysql> show engines;
+mysql> show databases;
+mysql> create database DATABASE;
+mysql> drop database DATABASE;
+mysql> show table status from DATABASE;
+mysql> use DATABASE;
+mysql> show tables;
+mysql> drop table TABLE;
+mysql> select * from TABLE;
+mysql> show variables like "%table%";
+mysql> show variables like "char%";
+
+# import from sql
+mysql> use DATABASE;
+mysql> source district-full.sql;
+
+# Dump sql
+mysqldump --compatible=postgresql --default-character-set=utf8 -r district.mysql -u root -p district
+
+# Chinese issue
+mysql>
+alter table district CONVERT TO CHARACTER SET utf8;
+set character_set_client=utf8;
+set character_set_connection=utf8;
+set character_set_database=utf8;
+set character_set_results=utf8;
+set character_set_server=utf8;
+set character_set_system=utf8;

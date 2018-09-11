@@ -1,0 +1,28 @@
+*** Relational Database
+    A relational database is a digital database based on the relational model of data.
+    Relational model is a two dimensional table.
+    The design should conform to 1NF, 2NF, 3NF ...
+
+*** NoSQL Database
+
+# SQL
+Sqlite
+MySQL, MariaDB
+PostgreSQL
+Apache Derby
+
+
+# NoSQL
+MongoDB
+Redis
+
+private key
+
+# BigData
+Hadoop
+Hive
+
+
+# Maven
+tpc-ds
+

@@ -1,0 +1,316 @@
+
+
+### C++ standard:
+    - C++11
+    - C++14
+    - gnu++14
+
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/xxx
+
+Build is comprised of "compile" and "link".
+
+
+### cmake
+    CMakeLists.txt
+
+    PROJECT(projectname [CXX] [C] [JAVA])
+    This statement defines project name and supported programming language, it also defines two cmake variables: <projectname>_BINARY_DIR and <projectname>_BINARY_DIR
+
+
+    add_definitions("-DCEPH_PKGLIBDIR=\"${CMAKE_INSTALL_FULL_PKGLIBDIR}\"")
+
+    -D CMAKE_INSTALL_PREFIX=/
+
+    CMAKE_MODULE_LINKER_FLAGS
+    CMAKE_SHARED_LINKER_FLAGS
+    CMAKE_STATIC_LINKER_FLAGS
+
+    set(CMAKE_C_COMPILER "/opt/ibm/xlC/13.1.4/bin/xlc")
+    set(CMAKE_CXX_COMPILER "/opt/ibm/xlC/13.1.4/bin/xlc++")
+
+### gcc
+    gcc process
+        Pre-Processing
+        Compiling
+        Assembling
+        Linking
+
+    Pre-Processing
+        gcc -E hello.c -o hello.i
+
+    Assembling
+        gcc -c hello.s -o hello.o
+        gcc -c hello.c -o hello.o
+
+
+    build shared library
+        gcc -shared -W,soname,-libhello.so.0 -o libhello.so.0.0.0 hello.o
+
+### Include Path
+    
+    -I/myinclude
+	
+    gcc env variable
+        C_INCLUDE_PATH
+        CPLUS_INCLUDE_PATH
+        OBJC_INCLUDE_PATH
+
+    The search order:
+        current directory
+        -I directory
+        C_INCLUDE_PATH or CPLUS_INCLUDE_PATH
+        gcc default directory such as /usr/include /usr/local/include etc
+
+### Library Path
+    -lxxx:
+        link libxxx
+
+    -L/path/xxx/
+        Search lib path /path/xxx/
+
+    LD_LIBRARY_PATH
+    LIBRARY_PATH
+
+### Compile Arguments
+    -fPIC
+        The linked library code can be shared.
+
+    -mcpu=power8
+
+    -march=native
+        x86 only optimization option?
+
+    -fopenmp
+        Compile with openmp
+
+
+### configure
+    ./configure --prefix=/usr
+    ./configure --prefix=/usr --build=ppc64le
+    CC=xxx ./configure
+    CXX=xxx ./configure
+    CC=/opt/at11.0/bin/gcc ./configure
+
+### Makefile
+    A "Makefile" contains five kinds of things:
+    - 1. explicit rules
+    - 2. implicit rules
+    - 3. variable definitions
+    - 4. directives
+    - 5. comments
+
+    Work flow of make:
+    - 1. Try to find "Makefile" or "makefile" under current directory.
+    - 2. If find, it will use first defined "target" as the final target file to generate it.
+    - 3. Check "target" file and its related dependency files, and its related dependency files's dependency files.
+
+    A "Makefile" has one and only one final target.
+
+
+    Show all implicit rules.
+    make -p -f /dev/null
+
+     4.2  Explicit Rules
+    target [target ...]: [component ...]
+            [command 1]
+            [command .]
+            [command n]
+
+    or
+
+    targets : prerequisites ; command
+
+     4.3  Implicit Rules
+    A xxx.o will auto add xxx.c as it's dependency, and auto add cc -c xxx.c.
+
+    .PHONY : clean
+            clean :
+                    -rm edit $(objects)
+
+    ".PHONY" means it's a phony target.
+    "-rm" means keeping remove when encouter errors.
+
+     4.4  Variable
+     4.4.1  Common Variable
+    Definition:
+    objects = main.o init.o
+
+    x := foo
+    y := $(x) bar
+    x := later 
+
+    foo ?= bar
+
+    objects = main.o foo.o bar.o utils.o
+    objects += another.o
+
+
+    The difference is:
+    "=" means var can use var that is defined later.
+    ":=" means var can only use var that is defined before.
+    "?=" means if var is defined before, it will do nothing, else do the assignment.
+    "+=" means appending value.
+
+    define variable
+    define two-lines
+    echo foo
+    echo $(bar)
+    endef
+
+     4.4.2  Target-specific Variable
+
+    <target ...> : <variable-assignment>
+    <target ...> : overide <variable-assignment>
+
+
+    prog : CFLAGS = -g
+    prog : prog.o foo.o bar.o
+    $(CC) $(CFLAGS) prog.o foo.o bar.o
+    In prog rule and all its related rules (prog.o ...), $(CFLAGS) is '-g' no matter whether  CFLAGS is defined globally.
+
+     4.4.3  Pattern-specific Variable
+
+    %.o : CFLAGS = -O
+
+    All the target of "*.o" will have a variable "CFLAGS = -O".
+
+    Usage:
+    edit : $(objects)
+
+    Replacement:
+    $(var:a=b)
+    ${var:a=b}
+
+    It means that when 'var' end with 'a', replace all 'a' with 'b'.
+    foo := a.o b.o c.o
+    bar := $(foo:.o=.c)
+    bar := a.c b.c c.c
+
+    Use value of variable as a variable.
+    x = y
+    y = z
+    a := $($(x))
+
+    a := $(y)
+    a := z
+
+
+    override
+
+    Use "@" before shell command, the shell command will be executed but without being shown on the output.
+    @echo "Compile..."
+
+
+    comand execution
+    If you want to use result of previous command, you should write 2 commands in the same line and divided by ";".
+    exec:
+                   cd /home/xlhu
+                   pwd
+
+    exec:
+                   cd /home/xlhu; pwd
+
+
+    make -n | make --just-print
+    Print command but not executed.
+    make -s | make --silent
+    Don't show any shell commands.
+
+
+
+
+
+
+
+
+    subsystem:
+               cd subdir && $(MAKE)
+
+    subsystem:
+               $(MAKE) -C subdir
+
+    The previous variables will be deliveried to the makefile of sub directory, but will not override the variables defined in the makefile of sub directory except that use "make -e".
+
+
+     4.5  Directives
+     4.5.1  Multiple Makefiles
+
+    include foo.make a.mk b.mk c.mk e.mk f.mk
+
+    "include" will insert included files at current location.
+     4.5.2  Condition
+
+    ifeq (<arg1>, <arg2> )
+    ifeq '<arg1>' '<arg2>'
+    ifeq "<arg1>" "<arg2>"
+    ifeq "<arg1>" '<arg2>'
+    ifeq '<arg1>' "<arg2>"
+
+    else
+
+    endif
+
+    ifeq ($(strip $(foo)),)
+    <text-if-empty>
+    endif
+
+    ifneq (<arg1>, <arg2>)
+    ifneq '<arg1>' '<arg2>'
+    ifneq "<arg1>" "<arg2>"
+    ifneq "<arg1>" '<arg2>'
+    ifneq '<arg1>' "<arg2>"
+
+    ifdef <variable-name>
+    bar =
+    foo = $(bar)
+    ifdef foo
+    frobozz = yes
+    else
+    frobozz = no
+    endif
+
+    $(frobozz) is "yes"
+
+    foo =
+    ifdef foo
+    frobozz = yes
+    else
+    frobozz = no
+    endif
+
+    $(frobozz) is "no"
+
+    ifndef <variable-name>
+
+     4.5.3  Function
+
+    $(<function> <arguments>)
+
+    ${<function> <arguments>}
+
+    subst
+    $(subst <from>,<to>,<text>)
+
+    Substitute "from" to "to" for "text".
+
+
+
+    $@
+    $%
+    $<
+    $?
+    $^
+    $+
+    $(@D)
+    $(@F)
+
+     4.6  Comments
+    Use "#" to indicate a line is for comments.
+
+     5  aclocal
+
+
+
+### Issues
+    /bin/ld: cannot find -lpthreads

@@ -1,0 +1,4 @@
+
+pip install matplotlib
+apt-get install python-tk
+
