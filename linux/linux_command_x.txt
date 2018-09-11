@@ -208,31 +208,55 @@
     (gdb) x/20 $esp                     // Show 2o values of memory
 
 ### git
-    // config
     git config --list
-        Show config details include git url.
+        List all the settings git can find at /etc/gitconfig, ~/.gitconfig, ~/.config/git/config or .git/config.
+    git config --system --list
+        List the settings git can find at /etc/gitconfig.
+    git config --global --list
+        List the settings git can find at ~/.gitconfig or ~/.config/git/config.
+    git config --local --list
+        List the settings git can find at .git/config.
     git config --global http.sslverify false
+        Set git value for current user.
     git config --global user.name "Firstname Lastname"
-    git config --global user.email your_email@youremail.com
+        Set git value for current user.
+    git config --global user.email email@email.com
+        Set git value for current user.
 
-    // Show and check
+    git clone git@github.com:xlhu/xxx.git
+        Clone a repository to local.
+
     git status
-        Show all files change status.
+        Show the working tree status.
+
     git log
-        Show commit logs
+        Show commit logs.
     git log <file>
-        Show commit logs for specific file
+        Show commit logs for specific file.
     git show <commit hash>
-        Show file changes for specific commit
+        Show file changes for specific commit.
     git show <tag>
-        Show information for specific tag
+        Show information for specific tag.
+
+    git add -N file
+        Add file and it can be shown by git diff.
+
+    git commit -a -m "msg"
+        Commit into branch
+    git push
+        Push to remote repository
+    git push origin foo
+        Push branch foo to remote repository
 
     git mv -f oldfolder newfolder
+        Move an old file or dir.
+        
     git add -u newfolder
+        Add a new dir and subs.
+
     git clean -fd
         Delete all untraced files and directories.
 
-    // branch
     git branch
         Show local branch
     git branch -r
@@ -241,6 +265,7 @@
         Show local and remote branch
     git branch <xxx>
         Create local branch xxx
+
     git checkout <xxx>
         Checkout to specific branch xxx
     git branch -d <xxx>
@@ -259,18 +284,16 @@
         Give up modification about specific file
     git pull
         Update to latest commit of current branch
-    git add -N file
-        Add file and it can be shown by git diff
-    git remote	
     git remote -v
         Check the remote hosts
-    git stash
-        store local modification
-    git stash list
-        list local stash
-    git stash pop stash@{0}	
 
-    #### tag
+    git stash
+        Store local modification
+    git stash list
+        List local stash
+    git stash pop stash@{0}	
+        Apply the pop stash.
+
     git tag
         Show all tags
     git tag -l '1.4*'
@@ -284,39 +307,9 @@
     git push origin --tags
         Push all local tags to remote server.
 
-    git commit -a -m "msg"
-        Commit into branch
-    git push
-        Push to remote repository
-    git push origin foo
-        Push branch foo to remote repository
-
     git rev-parse HEAD
         Get current commit.
-
-    // BACKUP
-    git checkout Impala2.6-gcc4.9
-    git pull
-    git branch Impala2.6-gcc4.9_bak
-    git push origin Impala2.6-gcc4.9_bak:Impala2.6-gcc4.9_bak
-
-    // RESET on local
-    git checkout Impala2.6-gcc4.9
-    git pull
-    git log
-    git reset --hard 282cbfbca0f8c9f1aaa7a4a224e3c61aaa576c5c
-
-    // DELETE remote
-    git push origin :Impala2.6-gcc4.9
-
-    // Push to remote
-    git push origin Impala2.6-gcc4.9
-
-    // Create branch from another repository
-    git remote add <fork> <repo url>
-    git fetch <fork>
-    git checkout -b <main> <fork/master>
-    git push origin <main>
+### git
 
 ### grep
     grep -E '123|abc' filename
