@@ -309,7 +309,6 @@
 
     git rev-parse HEAD
         Get current commit.
-### git
 
 ### grep
     grep -E '123|abc' filename

@@ -4,7 +4,8 @@ import sys
 src_file = "./linux/linux_command_x.txt"
 
 def get_cmd_text(cmd):
-    cmd_edge = "### " + cmd
+    cmd_start = "### " + cmd
+    cmd_end = "### "
 
     with open(src_file, 'r') as f:
         lines = f.readlines()
@@ -15,7 +16,7 @@ def get_cmd_text(cmd):
         for l in lines:
             line = l.strip().strip("\n")
 
-            if line.strip() == cmd_edge:
+            if line.startswith(cmd_start):
                 flag = not flag
                 continue
 
@@ -24,6 +25,8 @@ def get_cmd_text(cmd):
                 even = not even
 
             if flag == True:
+                if line.startswith(cmd_end):
+                    break
                 if even == True:
                     if color:
                         print("\033[1;34;40m " + line + " \033[0m")
