@@ -1,0 +1,95 @@
+### Install unbuntu vm on centos
+yum install qemu-kvm libvirt virt-install bridge-utils -y
+
+lsmod | grep kvm
+
+systemctl status libvirtd
+
+# create br1
+cd /etc/sysconfig/network-scripts/
+vim ifcfg-br1
+    BOOTPROTO=static
+    DEVICE=br1
+    TYPE=Bridge
+    NM_CONTROLLED=no
+    IPADDR=192.168.1.112
+    NETMASK=255.255.255.0
+    GATEWAY=192.168.1.1
+
+vim ifcfg-eth1
+    BOOTPROTO=none
+    DEVICE=enp0s25
+    NM_CONTROLLED=no
+    ONBOOT=yes
+    BRIDGE=br1
+
+virt-install \
+--name jenkins \
+--ram 8192 --vnc --vncport=5912 --vnclisten=0.0.0.0 \
+--disk path=/home/kvm/kvm_disk_jenkins,size=20 \
+--network bridge=br1 \
+--cdrom /home/kvm/ubuntu-16.04.3-server-ppc64el.iso \
+--virt-type kvm \
+--vcpus 8 \
+-d
+
+virsh list --all
+virsh destroy ubuntu
+virsh start ubuntu
+
+
+
+
+
+
+
+
+
+
+
+
+
+mount -t hugetlbfs hugetlbfs /home/hugepages/
+service libvirtd restart
+
+
+# Show VM
+virsh list --all
+
+# Stop VM
+virsh destroy jenkins
+
+# Start VM
+virsh start jenkins
+
+# Delete VM
+virsh undefine jenkins
+
+# Modify memory
+virsh dominfo jenkins | grep memory
+virsh setmaxmem android 33554432 --config
+virsh setmem jenkins 268435456
+
+virsh edit jenkins
+
+
+yum install libhugetlbfs
+mount -l | grep hugetlbfs
+
+
+mount -t hugetlbfs hugetlbfs /home/hugepages/
+
+vim /etc/libvirt/qemu.conf
+service libvirtd restart
+
+
+# Create a raw image
+qemu-img create -f raw jenkins_ci.disk.raw 100G
+
+# Attach to the vm
+virsh attach-disk jenkins /home/kvm/jenkins_ci.disk.raw vdb --cache none
+
+# virsh edit jenkins to edit disk
+
+# fdisk and mkfs and mount
+

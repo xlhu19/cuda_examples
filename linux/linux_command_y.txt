@@ -1,0 +1,111 @@
+
+*** Ubuntu System Cleanup
+    apt-get autoclean
+    apt-get clean
+    apt-get autoremove
+
+*** Ubuntu Check OS Version:
+    cat /etc/issue
+    lsb_release -a
+
+*** Ubuntu Change apt-get source repository to aliyun
+    cd /etc/apt/
+    mv sources.list sources.list.bak
+    Codename=$( (lsb_release -a)|awk '{print $2}'|tail -n 1 )
+    echo "\
+    deb http://mirrors.aliyun.com/ubuntu/ $Codename main multiverse restricted universe
+    deb http://mirrors.aliyun.com/ubuntu/ $Codename-backports main multiverse restricted universe
+    deb http://mirrors.aliyun.com/ubuntu/ $Codename-proposed main multiverse restricted universe
+    deb http://mirrors.aliyun.com/ubuntu/ $Codename-security main multiverse restricted universe
+    deb http://mirrors.aliyun.com/ubuntu/ $Codename-updates main multiverse restricted universe
+    deb-src http://mirrors.aliyun.com/ubuntu/ $Codename main multiverse restricted universe
+    deb-src http://mirrors.aliyun.com/ubuntu/ $Codename-backports main multiverse restricted universe
+    deb-src http://mirrors.aliyun.com/ubuntu/ $Codename-proposed main multiverse restricted universe
+    deb-src http://mirrors.aliyun.com/ubuntu/ $Codename-security main multiverse restricted universe
+    deb-src http://mirrors.aliyun.com/ubuntu/ $Codename-updates main multiverse restricted universe">sources.list
+    apt-get update
+
+*** ubuntu user's dash to bash
+	cat /etc/passwd
+	usermod -s /bin/bash xlhu
+
+
+*** Network
+	--- DNS
+		vim /etc/resolv.conf and add the following line:
+		nameserver 8.8.8.8
+
+	--- NFS
+		# Server Side
+		sudo apt install nfs-kernel-server 
+		sudo vi /etc/exports
+			/home/nfs_dir *(insecure,rw,async,no_root_squash)
+		sudo service nfs-kernel-server restart
+
+		sudo exportfs -rv
+		sudo nfsstat
+
+		# Client Side
+		mount -o nolock 192.168.0.10:/home/nfs_dir /tmp/test
+
+	--- Get/Set information
+		ethtool -k eth1
+		ethtool -K eth1 off
+		ethtool -g eth1
+	    ethtool -G eth1 rx 4096 tx 4096
+
+*** Storage
+	--- get information
+		fdisk -l            -   Check all disk and partitions
+		lsblk               -   Check all disk and partitions
+		df -Th              -   Check mount disk and partitions
+		parted -l           -   Check umount disk and partitions
+		file -s /dev/sda1   -   Check filesystem
+	--- mount a raw disk
+		create partition: fdisk /dev/vdb
+		format:           mkfs.ext4 /dev/vdb1
+		mount:            mount -t ext4 /dev/vdb1 /spark1
+
+    Extended partition can not be formatted. You must create logical partition in Extended partition.
+
+
+*** Linux System Config
+	sysctl -a
+
+
+*** java
+    jps
+    jinfo
+    jstat
+    jmap
+    jconsole
+
+*** hugepage
+    # Set hugepage
+    sync
+    echo 3 > /proc/sys/vm/drop_caches
+    echo 0 > /proc/sys/vm/nr_hugepages
+    sleep 2
+    sync
+    echo 4096 > /sys/devices/system/node/node0/hugepages/hugepages-16384kB/nr_hugepages
+    echo 4096 > /sys/devices/system/node/node8/hugepages/hugepages-16384kB/nr_hugepages 
+
+    # Clear hugepage
+    echo 3 > /proc/sys/vm/drop_caches
+    echo 0 > /sys/devices/system/node/node0/hugepages/hugepages-16384kB/nr_hugepages
+    echo 0 > /sys/devices/system/node/node8/hugepages/hugepages-16384kB/nr_hugepages
+
+
+*** Calculation
+    expr
+    let
+    bc
+    let
+
+*** How to modify hostname
+    1. hostname xxx                             ->  change immediately, but will loss when reboot
+    2. echo xxx > /proc/sys/kernel/hostname     ->  change immediately, but will loss when reboot
+    3. sysctl kernel.hostname=xxx               ->  change immediately, but will loss when reboot
+    4. vim /etc/hostname                        ->  need reboot
+
+

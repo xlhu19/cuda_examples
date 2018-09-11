@@ -1,0 +1,45 @@
+
+The "qi" (器) directory is the record and summary of Information Technology.
+
+QI (器) @ 2009-2018
+
+*** Hardware
+    x86
+    ppc
+    arm
+
+*** Operating System
+    Linux
+    Windows
+    MacOS
+
+*** Browser
+    Firefox
+    Chrome
+
+*** AI
+    Deep Learning, Machine Learning
+
+
+openstack
+
+ceph
+hadoop
+swift
+
+
+yaml
+Yet Another Markup Language
+
+
+GitHub
+
+*** Skills Tree
+    bash, python
+c c++
+java - jvm
+
+scala
+groovy
+
+数据，信息，整合，搜索

@@ -1,0 +1,393 @@
+
+*** Compile
+    g++ -o xxx xxx.cpp
+
+1. Variables
+
+
+
+*** name space
+    namespace ns1 {
+        int flag = 1;
+    }
+
+    namespace ns2 {
+        bool flag = false;
+    }
+
+    using ns1::flag;
+    flag = 0;
+    ns2::flag = true;
+
+    using namespace ns1;
+    flag = 0;
+    ns2::flag = true;
+
+*** Operator Overloading
+    1. overload as class member function
+      function_type operator op(argument) {
+      }
+    2. overload as friend function
+      friend function_type operator op(argument) {
+      } 
+
+*** Keywords
+    class
+    const
+    explicit
+    int
+    namespace
+    private
+    protected
+    public
+    template
+    typename
+
+const
+    Define a constant
+    const int MAX = 100;
+
+    Protect
+    void f(const int i) { i=10; //error! }
+    Compiler will raise error if modified.
+
+    decorate member functions
+    It's not allowed to modify object member variable.
+    It's not allowed to invoke any member functions that is not const.
+    class A {
+        void function() const;
+    }
+
+explicit
+    decorate class constructor
+    It is used to decorate class constructor function. The “explicit” suppresses automatic conversions
+    invoked by one-argument constructors.
+    class Plebe
+    {
+        Plebe(int); // automatic int-to-plebe conversion
+        explicit Plebe(double); // requires explicit use
+        ...
+    };
+    Plebe a, b;
+    a = 5; // implicit conversion, call Plebe(5)
+    b = 0.5; // not allowed
+    b = Plebe(0.5); // explicit conversion
+
+    C++11 extends the use of explicit (discussed in Chapter 11,“Working with Classes”) so that conversion functions can be treated similarly:
+    class Plebe
+    {
+        ...
+        // conversion functions
+        operator int() const;
+        explicit operator double() const;
+        ...
+    };
+    ...
+    Plebe a, b;
+    int n = a; // int-to-Plebe automatic conversion
+    double x = b; // not allowed
+    x = double(b); // explicit conversion, allowed
+
+private
+
+protected
+    Like private members, protected members are inaccessible to users of the class.
+    Like public members, the protected members are accessible to classes derived from this class.
+    In addition, protected has another important property:
+    A derived object may access the protected members of its base class only through a derived
+    object. The derived class has no special access to the protected members of base type objects.
+public
+
+
+
+Access privilege
+
+within class
+object
+sub class
+friend
+private
+YES
+NO
+NO
+YES
+public
+YES
+YES
+YES
+YES
+protected
+YES
+NO
+YES
+YES
+
+
+在 class 内部，可以访问 private。即使是一个 object 在 class 内，也可以访问 private。原理需要再研究。
+
+6.7  reinterpret_cast
+reinterpret_cast <new_type> (expression)
+
+ 6.8  virtual
+
+ 6.9  &
+lvalue reference
+rvalue reference
+
+refer to #3.2.Reference|outline
+
+Class
+Class Definition
+class A {
+  public:
+    int a;
+  private:
+    int b;
+};
+
+
+Object Initialization
+A a;
+A a(5);
+
+
+
+ public member can be visited by using obj.xxx.
+
+
+ void class class_A::func_B() {
+ }
+
+ # Friend class
+ class A {
+ public:
+            int a;
+        private:
+            int b;
+        friend class B;
+    };
+    friend class can visit the private and protected members of original class by using obj.xxx.
+
+    # friend function
+    Friend function is not member function.
+    Friend function can be used to visit Class private variables directly.
+    Friend function is used to improve performance.
+
+Initialize class member in constructor
+class CExample {
+public:
+    int a;
+    float b;
+    CExample(): a(0), b(8.8)
+    {}
+    CExample()
+    {
+        a=0;
+        b=8.8;
+    }
+};
+
+
+### Template
+    Template declare only global, namespace or class.
+    In a template, keyword "class" and "typename" are the same.
+
+    ### class template
+        template<class T1, class T2, ...>
+        class A {
+          public:
+            T1 a;
+            T2 b;
+        };
+        A<int, double> m;
+
+    ### function template
+        template<class T1, class T2, ...>
+        TYPE function_name(arguments) {
+        }
+
+        example:
+        template <typename T> void swap(T& a, T& b) {}
+        swap(3, 5);
+
+ 8.3  STL
+ 8.3.1  map
+
+#include <map>
+
+Definition
+map<string,   int>   my_Map;
+or
+typedef     map<string,   int>   MY_MAP; 
+  MY_MAP my_Map; 
+
+ 3   插入数据 
+  (1)   my_Map["a"]   =   1; 
+  (2)   my_Map.insert(map<string,   int>::value_type("b",2)); 
+  (3)   my_Map.insert(pair<string,int>("c",3)); 
+  (4)   my_Map.insert(make_pair<string,int>("d",4)); 
+  
+  4   查找数据和修改数据 
+  (1)   int   i   =   my_Map["a"]; 
+            my_Map["a"]   =   i; 
+  (2)   MY_MAP::iterator   my_Itr; 
+            my_Itr.find("b"); 
+            int   j   =   my_Itr->second; 
+            my_Itr->second   =   j; 
+  不过注意，键本身是不能被修改的，除非删除。 
+  
+  5   删除数据 
+  (1)   my_Map.erase(my_Itr); 
+  (2)   my_Map.erase("c"); 
+  还是注意，第一种情况在迭代期间是不能被删除的，道理和foreach时不能删除元素一样。 
+  
+  6   迭代数据 
+  for   (my_Itr=my_Map.begin();   my_Itr!=my_Map.end();   ++my_Itr)   {} 
+  
+  7   其它方法 
+  my_Map.size()               返回元素数目 
+  my_Map.empty()       判断是否为空 
+  my_Map.clear()           清空所有元素 
+  可以直接进行赋值和比较：=,   >,   >=,   <,   <=,   !=   等等
+
+ 8.3.2  vector
+#include<vector>
+
+vector<int> a; // declare an int type vector 'a'
+vector<int> a(10); // declare an int type vector 'a', size is 10
+vector<int> a(10, 1); // declare an int type vector 'a', size is 10
+vector<int> b(a);
+vector<int> b(a.begin(), a.begin()+3);
+
+int n[] = {1, 2, 3, 4, 5};
+vector<int> a(n, n+5);
+vector<int> a(&n[1], &n[4]);
+
+
+
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main() {
+    vector< vector<int> > b(10, vector<int>(5, 0));
+
+    cin>>b[1][1];
+    cin>>b[2][2];
+    cin>>b[3][3];
+
+    int m, n;
+    for(m=0; m<b.size(); m++) {
+        for(n=0; n<b[m].size(); n++)
+            cout<<b[m][n]<<" ";
+        cout<<"\n";
+    }
+
+    return 0;
+}
+
+
+ 8.3.3  string
+
+ 9  Standard Functions
+ 9.1  cout
+cout is an object defined in <iosteam>
+cout << is an operator overloading.
+
+ 10  File Operation
+
+reinterpret_cast
+
+std::to_string
+
+ 11  Compile
+
+gcc -E hello.c -o hello.i
+gcc -S hello.i
+gcc -c hello.s -o hello.o
+gcc hello.o -o hello
+
+
+
+
+enum PerfLevel : char {
+  kUninitialized = -1, 
+  kDisable = 0,                   // disable perf stats
+  kEnableCount = 1,               // enable only count stats
+  kEnableTimeExceptForMutex = 2,  // Other than count stats, also enable time
+                                  // stats except for mutexes
+  kEnableTime = 3,                // enable count and time stats
+  kOutOfBounds = 4                // N.B. Must always be the last value!
+};
+
+
+
+
+ 12  Macro
+ 12.1  #
+Add quotation for the string.
+#define WARN_IF(EXP)    do{ if (EXP)    fprintf(stderr, "Warning: " #EXP "/n"); }   while(0)
+
+WARN_IF (divider == 0);
+do {
+if (divider == 0)
+fprintf(stderr, "Warning" "divider == 0" "/n");
+} while(0);
+
+ 12.2  ##
+分割再连接
+#define COMMAND(NAME) {#NAME, NAME##_command}
+
+
+ 13  Boost
+shared_ptr
+
+#include <string>
+#include <iostream>
+#include <boost/shared_ptr.hpp>
+
+class implementation
+{
+public:
+    ~implementation() { std::cout <<"destroying implementation\n"; }
+    void do_something() { std::cout << "did something\n"; }
+};
+
+void test()
+{
+    boost::shared_ptr<implementation> sp1(new implementation());
+    std::cout<<"The Sample now has "<<sp1.use_count()<<" references\n";
+
+    boost::shared_ptr<implementation> sp2 = sp1;
+    std::cout<<"The Sample now has "<<sp2.use_count()<<" references\n";
+    
+    sp1.reset();
+    std::cout<<"After Reset sp1. The Sample now has "<<sp2.use_count()<<" references\n";
+
+    sp2.reset();
+    std::cout<<"After Reset sp2.\n";
+}
+
+boost::shared_ptr指针sp1和sp2同时拥有了implementation对象的访问权限，且当sp1和sp2都释放对该对象的所有权时，其所管理的的对象的内存才被自动释放。在共享对象的访问权限同时，也实现了其内存的自动管理。
+boost::shared_ptr的管理机制其实并不复杂，就是对所管理的对象进行了引用计数，当新增一个boost::shared_ptr对该对象 进行管理时，就将该对象的引用计数加一；减少一个boost::shared_ptr对该对象进行管理时，就将该对象的引用计数减一，如果该对象的引用计 数为0的时候，说明没有任何指针对其管理，才调用delete释放其所占的内存。
+Function pointer
+    • Define a function pointer
+typedef char (*pFun)(int); // Define a function pointer pFun, return type is char, argument list is (int)
+
+    • Define a normal function
+char glFun(int a){return;}
+
+    • Example to use function pointer
+void main() {
+    pFun = glFun;
+    (*pFun)(2);
+}
+
+
+typedef 返回类型(*新类型)(参数表) 
+typedef char (*pFun)(int);
+
+Function pointer can be treated as a new data type.
+

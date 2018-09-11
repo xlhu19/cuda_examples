@@ -1,0 +1,245 @@
+*** Overview
+    The shell is a program that takes commands from the keyboard
+    and gives them to the operating system to perform.
+
+    4 types of shells:
+    - bash (Bourne Again SHell)
+    - csh (C SHell)
+    - ksh (KornSHell)
+    - zsh
+
+*** Variable
+    Define a variable
+        VAR="Hello World"
+        VAR=123
+        Note: There is no space before and after "="
+
+    Use a variable
+        $VAR
+        ${VAR}
+
+    Set variable readonly
+        readonly VAR
+
+    Unset a variable
+        unset VAR
+
+    ''      -   Keep the char original.
+    ""      -   Translate the special char include "$" and "\".
+    ``      -   Execute the command.
+
+    sudo yum install -y $(cat rpm_requirements.txt)
+
+*** String
+    A string can be defined with "", '' or nothing.
+
+    Get the length of a string
+        string="abcd"
+        echo ${#string} # output is 4
+
+    Cut out a string
+        echo ${var:0:5} # start from 0, length is 5, var[0,5)
+
+    Substitute
+        ${VAR/a/A} # Substitute the first 'a' with 'A'
+        ${VAR//a/A} # Substitute all 'a' with 'A'
+        ${VAR//[ |:]/-} # Substitute all ' ' or ':' with '-'
+
+*** Array
+    Define an array
+        array_name=(value0 value1 value2 value3)
+
+        array_name=(
+        value0
+        value1
+        value2
+        value3
+        )
+
+        array_name[0]=value0
+        array_name[1]=value1
+        array_name[n]=valuen
+
+    Get an element of  an array
+        ${array_name[n]}
+
+    Get all elements of an array
+        ${array_name[@]}
+
+    Get length of an array
+        ${#array_name[@]}
+        ${#array_name[*]}
+    Get length of element n
+        ${#array_name[n]}
+
+    Through an array
+        for data in ${array[@]}; do  
+            echo ${data}
+        done
+
+*** Function
+    Define firstly and then use it.
+    Two ways to define a function:
+
+        foo() {
+        }
+
+        function foo {
+        }
+
+        function foo() {
+        }
+
+    Use a function
+        foo
+    Use a function with parameter
+        var="Hello world"
+        foo ${var} # There will be two parameters, $1="Hello" $2="world"
+        foo "Hello world" # There will be one parameter, $1="Hello world"
+
+    Return value is returned by using "return xxx". xxx is in [0,255], saved in $?.
+    Return a string is invalid.
+    If no "return xxx" in function, return the result of last command.
+
+    Two ways to get the return value:
+        foo
+        i=$?
+
+        foo() {
+            echo 3
+        }
+        i=`foo`
+
+    Use keyword "local" to define a local variable in function.
+    Otherwise, the varibale in function is global.
+
+    Use keyword "exit" in function will exit the script.
+
+*** Parameters
+    $0 - bash name
+    $1 - first parameter
+    $2 - second parameter
+    $@ - all parameters
+    $* - all paramters
+    $# - number of paramters
+
+    shift
+    shift will shift parameter to left,
+    "shift" default "shift 1"
+
+*** if
+  ## FORMAT
+    if [ condition ]; then
+        cmd
+    elif [ condition ]; then
+        cmd
+    else
+        cmd
+    fi
+
+  ## EXAMPLE
+    if [ -e file1 ] # file1 exists
+    if [ -f file1 ] # file1 exists and is a regular file
+    if [ -s file1 ] # file1 exists and size > 0
+    if [ -L file1 ] # file1 exists and is a link
+    if [ -r file1 ] # file1 exists and is readable
+    if [ -w file1 ] # file1 exists and is writable
+    if [ -x file1 ] # file1 exists and is executable
+    if [ -d dir1 ] # dir1 exist
+    if [ file1 -nt file2 ] # file1 new than file2
+    if [ file1 -ot file2 ] # file1 old than file2
+
+    if [ -z string ] # string length is 0
+    if [ -n string ] # string length is not 0
+    if [ "$str1"x = "$str2"x ] # str1 == str2
+    if [ "$str1"x == "$str2"x ] # str1 == str2
+    if [ "$str1"x != "$str2"x ] # str1 != str2
+
+    if [ $num1 -eq $num2 ] # num1 == num2
+    if [ $num1 -nq $num2 ] # num1 != num2
+    if [ $num1 -lt $num2 ] # num1 < num2
+    if [ $num1 -le $num2 ] # num1 <= num2
+    if [ $num1 -gt $num2 ] # num1 > num2
+    if [ $num1 -ge $num2 ] # num1 >= num2
+
+    Note:
+    1. use []
+    2. after '[' and before ']' have a space
+
+    if [ -e file1 -a -e file2 ]
+    if [ -e file1 -o -e file2 ]
+    if [ ! -e file1 ]
+
+    if  [[ exp1 && exp2 ]]
+    if  [[ exp1 || exp2 ]]
+
+*** for
+    for ((i=0; i<10; i++)); do
+        echo $i
+    done
+
+    for ((i=0; i<10; i=i+2)); do
+        echo $i
+    done
+
+    for i in {1..5}; do
+        echo $i
+    done
+
+    for i in {1..100..2}; do
+        echo $i
+    done
+
+    for i in $(ls); do
+        echo $i
+    done
+
+*** while
+    while [ condition ]; do
+        cmd
+    done
+
+*** case
+    case $Command in
+    gzip)
+        tar czfP /backup/backupfile-`date +%F-%H-%M-%S`.tar.gz /etc/
+        ;;
+    bzip2)
+        tar cjfP /backup/backupfile-`date +%F-%H-%M-%S`.tar.bz2 /etc/
+        ;;
+    xz)
+        tar cJfP /backup/backupfile-`date +%F-%H-%M-%S`.tar.xz /etc/
+        ;;
+    *)
+        echo "Usage:`basename $0`{gzip | bzip2 | xz }."
+        ;;
+    esac
+
+*** Redirect IO
+    ls > log
+    ls >> log
+    ls 2>&1 > log
+    
+    wc -l < file
+    wc -l <delimiter
+        first line
+        second line
+    delimiter
+
+*** Calculation
+    For int calculation:
+        val=`expr 2 + 2`
+        val=`expr $a + $b`
+        val=`expr $a - $b`
+        val=`expr $a \* $b`
+        val=`expr $b / $a`
+        val=`expr $b % $a`
+
+        Note: There should be space before and after operator.
+
+*** Utils
+    Get current shell directory
+        SHELL_FOLDER=$(dirname $(readlink -f "$0"))
+
+    $? stores the return code.
+

@@ -1,0 +1,154 @@
+
+*** Compile & Run
+    javac HelloWorld.java
+        Compile directly.
+    javac -classpath /home/lib/ HelloWorld.java
+        Compile with specified classpath.
+    java HelloWorld
+        Run HelloWorld.class
+
+*** Naming Conventions
+    1. Case sensitive
+    2. If it is class, HelloWorld
+    3. If it is method, helloWorld
+    4. If it is project/package, helloworld
+    5. If it is constant, HELLO
+    6. Keep file name as the same of public class
+
+*** Variables (8+2)
+    -----------------------------
+    TYPE           SIZE (bytes)
+    -----------------------------
+    boolean        1
+    byte           1
+    char           2
+    short          2
+    int            4
+    float          4
+    long           8
+    double         8
+    enum           n
+    class          n
+    -----------------------------
+
+    Each basic type has its class implementation.
+
+    The enum type can be treated as a class.
+    public enum FreshJuiceSize {
+        SMALL, MEDIUM , LARGE
+    }
+    FreshJuiceSize size;
+    size = FreshJuiceSize.MEDIUM;
+
+    The constant definition:
+    final double PI = 3.1415927;
+
+    local variable
+        allocated in stack
+        no initial value
+    member variable
+        generated and distroyed with object generated and distoryed
+        the default initial value is 0, false, null
+    static variable
+        allocated in static memory
+        generated when program starts and distoyed when program stops
+        only one static variable for all objects to share
+        use class.variable to visit
+
+*** class
+    Definition:
+    public class Dog {
+    }
+
+    The constructor name should keep same with class name.
+    There will be a default constructor if no definition.
+    There could be more constructors in a class.
+
+    Puppy myPuppy = new Puppy("tommy"); // will invoke constructor
+
+    Inherit:
+    public class Penguin extends Animal {
+    }
+
+    A class can only inherit one class.
+    Penguin penguin = new Penguin();
+
+    1. sub class will always need to invoke constructor of super.
+    2. if don't specify in sub class, with invoke super constructor without parameter 
+    3. if want to invoke super constructor with parameter, must use super(xxx)
+
+
+    abstract class can not be initialize
+    abstract class must be inherited
+    abstract method: public abstract double computePay();
+    if there is an abstract method, the class must be abstract.
+    if the sub class do not override the abstract method, the sub class should be abstract.
+    static method can not be abstract.
+
+    override & overload
+
+*** polymorphism
+    condition:
+    1. inherit
+    2. override
+    3. super referecne points to sub object
+
+    process:
+    1. super class must has the method definiton
+    2. Super s = new Sub(); s.method(); s will invoke the method in Sub object. 
+    3. when compile, it uses super class's method to check, when run, JVM uses sub class method
+
+*** Decoration
+    Access Specifiers   class   package     sub class   other package
+    -----------------------------------------------------------------
+    public              Y       Y           Y           Y
+    protected           Y       Y           Y           N
+    default             Y       Y           N           N
+    private             Y       N           N           N
+
+        inherit
+            father      ->  son
+            public      ->  public
+            protected   ->  protected or public
+
+    static
+        static class or method
+    final
+        final variable can not be changed
+        final method can be inherited but can not be changed
+        final class can not be inherited 
+    abstract
+        abstract class can not be initialized.
+    synchronized
+        synchronized method can only be visited by one thread at the same time
+    transient
+    volatile
+        volatile variable 
+
+*** Command
+    java -XX:+PrintFlagsInitial
+        Print initial jvm flags.
+    java -XX:+PrintFlagsFinal
+        Print final real jvm flags.
+
+*** Java flags:
+    TieredCompilation
+    CICompilerCount
+    -XX:+PrintCompilation
+
+    -Xbootclasspath:bootclasspath
+    -Xbootclasspath/a:path
+    -Xbootclasspath/p:path
+
+*** JIT Compilation Introduction
+    JIT (just-in-time) compiler
+    This means that the class files (which are compiled from Java source code) are further compiled at runtime,
+    and they can be turned into very highly optimized machine code. This optimized code runs extremely fast.
+
+    -XX:+PrintCompilation will generate compilation logs.
+
+    Compilation Modes
+    C1 and C2
+
+    http://www.oracle.com/technetwork/articles/java/architect-evans-pt1-2266278.html
+

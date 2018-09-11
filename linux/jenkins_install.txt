@@ -1,0 +1,26 @@
+
+
+
+在 RHEL/CENTOS 上：
+
+1. 安装 openjdk 1.8
+
+2. 安装 jenkins
+    wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+    rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    yum install jenkins
+
+3. 启动 jenkins
+    service jenkins start/stop/restart
+    chkconfig jenkins on
+
+4. 配置 jenkins
+    http://192.168.1.112:8080/
+
+
+On Ubuntu
+wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+java -jar jenkins.war
+
+
+jenkins 配置 git 权限

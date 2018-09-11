@@ -1,0 +1,8 @@
+yum install rpmdevtools
+rpmdev-setuptree
+
+Generate directory rpmbuild under /root.
+
+/root/.rpmmacros
+Modify _topdir to modify the default rpmbuild dir.
+

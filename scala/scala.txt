@@ -1,0 +1,70 @@
+
+*** scala code highlight
+    mkdir -p ~/.vim/{ftdetect,indent,syntax}
+    for d in ftdetect indent syntax ; do
+        curl -o ~/.vim/$d/scala.vim https://raw.githubusercontent.com/gchen/scala.vim/master/scala.vim
+    done
+
+    vim ~/.vimrc
+    syntax on
+
+*** sbt env
+    wget https://github.com/sbt/sbt/releases/download/v1.1.1/sbt-1.1.1.zip
+    wget https://downloads.lightbend.com/scala/2.12.5/scala-2.12.5.tgz
+    sbt compile
+    sbt package
+    sbt run
+
+*** scala read xml
+    val someXml = XML.loadFile("Example.xml")
+    val headerField = (someXml\"header"\"field").text.toInt
+
+*** Variable
+    # Variable Type
+    Byte        int 1 byte
+    Short       int 2 bytes
+    Int         int 4 bytes
+    Long        int 8 bytes
+    Float       float 4 bytes
+    Double      float 8 bytes
+    Char        2 bytes Unicode, from U+0000 to U+FFFF
+    String      string
+    Boolean     true or false
+    Unit        same as void
+    Null        null or null reference
+    Nothing     Nothing is sub of everything
+    Any         Any
+    AnyRef      AnyRef
+
+    In scala, function is treated as a variable.
+
+    # Variable Definiton
+    var myVar : String = "Foo"
+    val myVal : String = "Foo"
+
+    var myVar = 10;
+    val myVal = "Hello, Scala!";
+    val pa = (40,"Foo")
+    val xmax, ymax = 100 // xmax=100, ymax=100
+
+    lazy val property = initProperty()
+        Only invoke initProperty when property is used. lazy variable can not be changed.
+
+*** Function
+    def functionName ([argument list]) : [return type] = {
+        function body
+        return [expr]
+    }
+
+    =>
+
+
+*** Class
+    
+*** Trait
+    trait Equal {
+        def isEqual(x: Any): Boolean
+        def isNotEqual(x: Any): Boolean = !isEqual(x)
+    }
+
+

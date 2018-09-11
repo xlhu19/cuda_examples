@@ -1,0 +1,373 @@
+
+C Programming Language Summary
+ 1  C History
+1972
+C Invention
+1978
+C Published by AT&T
+1989-1990
+ANSI C, C89, C90
+1999
+C99
+2011
+C11
+
+
+ 2  Variable
+ 2.1  Type
+
+
+
+Alias
+Example Size (Bytes)
+
+Basic
+char
+-
+1
+
+
+short
+short int
+2
+
+
+int
+-
+4
+
+
+long
+long int
+8
+
+
+long long (C99)
+long long int
+8
+
+
+float
+
+4
+
+
+double
+
+8
+
+
+long double
+
+16
+
+Structure
+array
+
+
+
+
+enum
+
+
+
+
+union
+
+
+
+
+struct
+
+
+
+
+pointer
+
+
+
+
+void
+
+0
+
+
+C standard requires:
+sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long)
+The specific size of each type is defined by specific platform and compiler.
+
+
+
+ 2.2  C Bit Fields
+
+struct bs {
+    int a:8;
+    int b:2;
+    int c:6:
+};
+
+ 3  Keywords
+ 3.1  overview
+ANSI C - C89 (1989)
+auto
+break
+case
+char
+const
+continue
+default
+do
+double
+else
+enum
+extern
+float
+for
+goto
+if
+int
+long
+register
+return
+short
+signed
+sizeof
+static
+struct
+switch
+typedef
+union
+unsigned
+void
+volatile
+while
+ISO C99 (1999)
+inline
+restrict
+_Bool
+_Complex
+_Imaginary
+
+
+
+ISO C11 (2011)
+_Alignas
+_Alignof
+_Atomic
+_Static_assert
+_Noreturn
+_Thread_local
+_Generic
+
+
+
+typedef
+typedef char* pstr;
+
+
+
+
+
+
+ 3.2  extern
+1. Define a variable in one file, declare the variable in other files.
+in file a.c
+int var_a;
+in file b.c
+extern int var_a;
+
+
+2. Define a function in one file, declare the function in other files.
+in file a.c
+void func_a(void) {
+}
+in file b.c
+extern void func_a(void);
+
+Note:
+"extern" is default when nothing is specified. include the header file and then can use it.
+
+3. In a cpp file, use c variables
+extern "C" {
+    int j;
+    void callme();
+}
+
+
+ 3.3  static
+1. Define a static variable in one file, this variable can only be used in this file.
+static int a;
+
+2. Define a static variable in a function, this variable will always exist even if function exit.
+This variable can only used in this function.
+void func_a() {
+    static int a;
+}
+3. Define a static function in one file, then this function can only be used in this file.
+static void func_a() {
+}
+
+staic can not used with extern.
+
+
+ 3.4  volatile
+Keyword volatile means that the variable may be changed at any time, compiler should not optimize this variable and should read it from the memory every time.
+
+
+
+
+
+ 4  C Preprocessor
+ 4.1  File Inclusion
+ 4.2  Macro Substitution
+ 4.3  Contitional Inclustion
+#if
+(opt) #elif
+(opt) #else
+#endif
+
+#ifdef
+(opt) #elif
+(opt) #else
+#endif
+
+#ifndef
+(opt) #elif
+(opt) #else
+#endif
+
+
+ 5  gcc inline asm
+Compiler gcc supports insertting assembly code into c/c++ code.
+asm is a keyword of gcc.
+#define __asm__ asm
+#define __volatile__ volatile
+
+The following description is correct though it's meaningless.
+__asm__ __volatile__("")
+__asm__ ("")
+
+ 5.1  Basic inline asm
+__asm__ __volatile__("Instruction List");
+rules:
+Before register, you should use "%"
+ 5.2  Inline asm with C/C++ expression
+It allows to use C/C++ expression to specify output or input for the instruction.
+__asm__　__volatile__("Instruction List" : Output : Input : Clobber/Modify);
+rules:
+Before register, you should use "%%"
+if "Clobber/Modify" is empty, ":" before  Clobber/Modify should be omited.
+if "Instruction List" is empty, then  "Output", "Input", "Clobber/Modify" can be either empty or not empty.
+如 果Output，Input，Clobber/Modify都为空，Output，Input之前的冒号(:)既可以省略，也可以不省略。如果都省略，则 此汇编退化为一个基本内联汇编，否则，仍然是一个带有C/C++表达式的内联汇编，此时"Instruction List"中的寄存器写法要遵守相关规定，比如寄存器前必须使用两个百分号(%%)，而不是像基本汇编格式一样在寄存器前只使用一个百分号(%)。比如 __asm__( " mov %%eax, %%ebx" : : )；__asm__( " mov %%eax, %%ebx" : )和__asm__( " mov %eax, %ebx" )都是正确的写法，而__asm__( " mov %eax, %ebx" : : )；__asm__( " mov %eax, %ebx" : )和__asm__( " mov %%eax, %%ebx" )都是错误的写法。 
+如 果Input，Clobber/Modify为空，但Output不为空，Input前的冒号(:)既可以省略，也可以不省略。比如 __asm__( " mov %%eax, %%ebx" : "=b"(foo) : )；__asm__( " mov %%eax, %%ebx" : "=b"(foo) )都是正确的。 
+如果后面的部分不为空，而前面的部分为空，则前面的冒号(:)都必须保留，否则无法说 明不为空的部分究竟是第几部分。比如， Clobber/Modify，Output为空，而Input不为空，则Clobber/Modify前的冒号必须省略（前面的规则），而Output 前的冒号必须为保留。如果Clobber/Modify不为空，而Input和Output都为空，则Input和Output前的冒号都必须保留。比如 __asm__( " mov %%eax, %%ebx" : : "a"(foo) )和__asm__( " mov %%eax, %%ebx" : : : "ebx" )。
+ 5.2.1  Instruction List
+
+ 5.2.2  Output
+__asm__("movl %%cr0, %0": "=a" (cr0));
+"a" means uses "eax", "=" means it's write-only.
+__asm__ __volatile__("movl %%cr0, %0" : "+a" (cr0));
+"+" means it's read and write available.
+
+ 5.2.3  Input
+Input is used to specify the input of instruction.
+__asm__("movl %0, %%db7" : : "a" (cpu->db7));
+"a" means it uses "eax".
+" cpu->db7" is a C/C++ expression. It can be any expression.
+
+__asm__ ("lidt %0" : "=m"(__idt_addr));
+
+Input/Output操作表达式的C/C++表达式表现为一个内存地址，不想借助于任何寄存器，则可以使用内存约束 "m"
+
+ 5.2.4  Clobber/Modify
+
+ 5.3  asm Instructions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lea
+
+
+movdqa
+Move Aligned Double Quadword
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 6  Compile
+ 6.1  gcc process
+Pre-Processing
+Compiling
+Assembling
+Linking
+
+Pre-Processing
+gcc -E hello.c -o hello.i
+
+Assembling
+gcc -c hello.s -o hello.o
+gcc -c hello.c -o hello.o
+
+ 7  Suppliment
+ 7.1  Array Size 0
+标准C和C++中数据长度不能为0，GNU C中是合法的。
+struct line {
+    int length;
+    char contents[0];
+};
+struct line *thisline = (struct line *) malloc (sizeof(struct line) + this_length);
+thisline->length = this_length;
+
+这段代码的主要含义是定义了一个结构体，并对其进行初始化，上面结构体的第二个成员变量contents[0]事实上是不占内存空间的，因此整个结构体的长度sizeof(struct line)为4。当采用malloc为其申请内存空间时，如上所示，申请了一段长度为结构体长度加可变长度的内存空间给结构体类型的指针，这时contents就指向申请的可变长度的内存空间。由于是一次申请的，所以这段可变长度的内存空间和前面的结构体长度的内存空间是连续的。对于这段可变长度的内存空间，可以采用数组的方式对其进行访问。对于整个结构体，当不再使用时，可以使用free函数一次性对其进行释放，而不必像指针那样分别释放。
+在结构体中，长度为0的数组必须在最后声明，使 用上有一定限制。 
+ 8  C Lib Functions
+ 8.1  bzero (obsolete)
+#include <string.h>
+void bzero(void *s, int n);
+Set the first n bytes memory to 0. Use memset instead of bzero. Memset is a little fast then bzero.
+ 8.2  malloc
+
+(void *) malloc(int size)
+
+1. The memory that function malloc applied is continuous.
+ 9  Issues
+ 9.1  multiple definition of xxx
+ 9.1.1  Cause
+If define variables in .h file. It may cause this issue.
+ 9.1.2  Solution
+It does not recommand to define variables in .h file.
+It should declare variables in .h file using 'extern', and define variables in .c file.
+
+
+
+Difference between "#ifdef" and "#if defined"
+
+

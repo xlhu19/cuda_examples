@@ -1,0 +1,89 @@
+
+*** Memory
+    The following is for jdk 1.7 and earier:
+    ------------------------------------------------
+    | Method Area | VM Stack | Native Method Stack |
+    | Heap        | Program Counter Register       |
+    ------------------------------------------------
+    Method Area & Heap is thread sharing.
+
+    Method Area memory is Permanent Memory
+    
+    ---------------------------------------------------------------------------------------------------------
+    |           Heap                                                                 |    Method Area       |
+    ---------------------------------------------------------------------------------------------------------
+    |          New / Young Generation (1/3)                   | Old Generation (2/3) | Permanent Generation |
+    |--------------------------------------------------------------------------------------------------------
+    | Eden (8/10) | From Survivor (1/10) | To Survivor (1/10) | Tenured              |                      |
+    ---------------------------------------------------------------------------------------------------------
+
+    –Xms                        -   memory size when start jvm process
+    -Xmx                        -   max memory size for jvm process
+    -Xss                        -   stack size for each thread, default is 1M
+    -Xmn                        -   memory size for New Generation
+    –XX:NewRatio                -   adjust young and old generation
+    –XX:SurvivorRatio           -   adjust eden and survivor area
+    -XX:MaxPermSize             -   memory of Permanent Generation (1.7)
+    -XX:MaxTenuringThreshold    -   the threshold to go to Old Generation   
+
+    -XX:MetaspaceSize           -   From 1.8
+
+*** GC Type
+    Minor GC    -   For New Generation
+    Major GC    -   For Old Generation
+    Full  GC    -   For all includes Permanent (Method Area)
+
+    # GC collectors
+        - Serial (single thread, stop the world)
+        - ParNew
+        - Parallel Scavenge (multiple threads, stop the world)
+
+        * Serial Old
+        * Parallel Old
+        * CMS (will not stop the world, better for latency sensitive workload)
+
+        # G1
+
+        -XX:+UseSerialGC = Serial + Serial Old
+        -XX:+UseParNewGC = ParNew + Serial Old
+        -XX:+UseConcMarkSweepGC = ParNew + CMS + Serial Old
+        -XX:+UseParallelGC = Parallel Scavenge + Serial Old
+        -XX:+UseParallelOldGC = Parallel Scavenge + Parallel Old
+
+*** GC options
+    # Serial GC
+    -XX:+UseSerialGC            -   serial gc, will stop the world
+
+    # Parallel GC
+    -XX:+UseParallelGC          -   GC for new generation
+    -XX:ParallelGCThreads       -   threads used for parallel gc
+    -XX:+UseParallelOldGC       -   for old generation
+    -XX:MaxGCPauseMillis        -   max pause time for new generation gc
+    -XX:+UseAdaptiveSizePolicy  -   the parallel collector will auto adjust ratio and suvivor ratio 
+    -XX:GCTimeRatio=n           -   set gc time percentage 1/(n+1)
+
+    # CMS(Concurrent Mark Sweep) GC
+    -XX:+UseConcMarkSweepGC     -   GC for old generation
+    -XX:+UseParNewGC            -   Parallel GC for new generation, work with CMS
+    -XX:+CMSIncrementalMode     -   useful for single CPU
+    -XX:+UseCMSCompactAtFullCollection
+    -XX:CMSFullGCsBeforeCompaction
+
+    # G1GC
+    -XX:+UseG1GC                -   use G1 GC, from jdk 1.7, purpose is to replace CMS in future
+    
+    # Print GC
+    -XX:+PrintGC
+    -XX:+PrintGCDetails
+
+*** GC algorithm
+    1. reference counter
+    2. root search
+
+*** GC tools
+    GCViewer https://github.com/chewiebug/GCViewer
+
+    jinfo –flag UseSerialGC <pid>
+    jstat -gcutil <pid>
+
+

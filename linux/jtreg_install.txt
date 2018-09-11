@@ -1,0 +1,111 @@
+
+# This doc is to deploy jtreg
+
+# Install prerequisites (ubuntu)
+sudo apt-get install mercurial javahelp2 junit testng default-jdk zip libssl-dev libnuma-dev
+sudo apt-get install libx11-dev libxext-dev libxtst-dev libxrender-dev libxmu-dev libxmuu-dev
+sudo apt-get install libcups2-dev libasound2-dev ccache libfreetype6-dev
+
+# Install prerequisites (RHEL)
+yum install wget zip unzip gcc gcc-c++ vim screen java-1.8.0-openjdk java-1.8.0-openjdk-devel mercurial numactl-devel -y
+yum install ant junit testng freetype-devel libXtst-devel libXt-devel libXrender-devel cups-devel alsa-lib-devel -y
+cp /usr/include/ft2build.h /usr/include/freetype2/
+git clone https://github.com/javaee/javahelp.git
+cd javahelp/javahelp_nbproject/
+ant
+
+
+# Install
+cd /home/ubuntu/
+wget https://adopt-openjdk.ci.cloudbees.com/view/OpenJDK/job/asmtools/lastSuccessfulBuild/artifact/asmtools-6.0.tar.gz
+tar -xf asmtools-6.0.tar.gz; unzip asmtools-6.0.zip
+
+wget https://adopt-openjdk.ci.cloudbees.com/job/jcov/lastSuccessfulBuild/artifact/jcov-2.0-beta-1.tar.gz
+tar -xf jcov-2.0-beta-1.tar.gz
+
+wget http://search.maven.org/remotecontent?filepath=com/puppycrawl/tools/checkstyle/8.1/checkstyle-8.1.jar -O checkstyle-8.1.jar
+
+wget https://adopt-openjdk.ci.cloudbees.com/job/jtharness/lastSuccessfulBuild/artifact/jtharness-5.0.tar.gz -O jtharness-5.0.tar.gz
+tar -xf jtharness-5.0.tar.gz
+
+hg clone http://hg.openjdk.java.net/code-tools/jtreg
+cd jtreg/make
+vim build.properties (ubuntu)
+    jtreg.build.resources = /home/ubuntu
+    javatest.home = ${jtreg.build.resources}/jtharness
+    javatest.jar = ${javatest.home}/lib/javatest.jar
+    javahelp.home = /usr/share/java
+    jhall.jar = ${javahelp.home}/jhall.jar
+    jh.jar = ${javahelp.home}/jh.jar
+    junit.jar = /usr/share/java/junit4-4.12.jar
+    testng.jar = /usr/share/java/testng-6.9.5-SNAPSHOT.jar
+    jcommander.jar = /usr/share/java/jcommander-1.48.jar
+    asmtools.jar = ${jtreg.build.resources}/asmtools-6.0/lib/asmtools.jar
+    jcov.home = ${jtreg.build.resources}/JCOV_BUILD/jcov_2.0/
+    ant.home = /usr/share/ant/
+    ant.jar = ${ant.home}/lib/ant.jar
+    checkstyle.home = ${jtreg.build.resources}
+
+    build.version = 4.2
+    build.milestone = dev
+    build.number = b00
+
+vim build.properties (CentOS)
+    jtreg.build.resources = /home/ubuntu
+    javatest.home = ${jtreg.build.resources}/jtharness
+    javatest.jar = ${javatest.home}/lib/javatest.jar
+    javahelp.home = /home/ubuntu/javahelp/javahelp_nbproject/dist/lib
+    jhall.jar = ${javahelp.home}/jhall.jar
+    jh.jar = ${javahelp.home}/jh.jar
+    junit.jar = /usr/share/java/junit.jar
+    testng.jar = /usr/share/java/testng.jar
+    jcommander.jar = /usr/share/java/beust-jcommander.jar
+    asmtools.jar = ${jtreg.build.resources}/asmtools-6.0/lib/asmtools.jar
+    jcov.home = ${jtreg.build.resources}/JCOV_BUILD/jcov_2.0/
+    ant.home = /usr/share/ant/
+    ant.jar = ${ant.home}/lib/ant.jar
+    checkstyle.home = ${jtreg.build.resources}
+
+    build.version = 4.2
+    build.milestone = dev
+    build.number = b00
+
+
+
+
+# Build
+cd make; ant
+
+# Test OpenJDK
+wget https://github.com/dmlloyd/openjdk/archive/jdk8u/jdk8u.zip
+./configure --with-freetype-include=/usr/include/freetype2/ --with-freetype-lib=/usr/lib/powerpc64le-linux-gnu/ --with-jtreg=/home/ubuntu/jtreg/dist/jtreg
+make clean
+make all
+make test
+
+
+##################### hottub ########################
+git clone git@github.ibm.com:madhusudanan/hottub.git
+cd hottub
+git checkout N6-trlopt
+rm -rf build
+cd hottub/client/
+make clean
+cd -
+export PATH=/usr/lib/jvm/java-1.8.0-openjdk-ppc64el/bin/:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-ppc64el/
+./configure --with-freetype-include=/usr/include/freetype2/ --with-freetype-lib=/usr/lib/powerpc64le-linux-gnu/ --with-jtreg=/home/ubuntu/jtreg/dist/jtreg
+./make_hottub.sh all
+./make test
+
+./src/share/classes/com/sun/javatest/regtest/tool/Tool.java
+JDK Version check
+
+
+
+问题
+JavaTest Message: Test threw exception: java.lang.Exception: No JUnit 4 driver (install junit.jar next to jtreg.jar)
+原因
+JUnit started requiring Hamcrest as of JUnit 4.4, but through JUnit 4.8.2 Hamcrest was bundled in the JUnit JAR (which is a no-no). Starting with JUnit 4.9 (including my 4.11) Hamcrest is no longer bundled (as it should be) and you have to download/attach Hamcrest separately. 
+Skeptical about my chances, I put hamcrest.jar in $JT_HOME/lib assuming it wouldn't work, and it didn't. I wasn't surprised. I downgraded to the JUnit 4.8.2 JAR and it's working now. Jtreg might want to start looking for hamcrest.jar now, too. JUnit 4.8.2 is three years old. 
+

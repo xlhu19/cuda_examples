@@ -1,0 +1,14 @@
+
+
+Files under ~/:
+.bashrc
+.bash_history
+.bash_logout
+.profile
+
+When login, the execution sequence:
+/etc/profile
+~/.bash_profile
+~/.bash_login
+~/.profile
+

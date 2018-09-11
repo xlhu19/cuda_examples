@@ -1,0 +1,1016 @@
+=== A
+### ant
+    ant -f make/build.xml
+
+### apt-cache
+    apt-cache search xxx
+        Search package
+
+### apt-get
+    apt-get install <package>
+    apt-get remove <package>
+    apt-get autoclean
+    apt-get clean
+    apt-get autoremove
+
+    apt-get update
+    apt-get upgrade
+
+### awk
+    awk [ -F re] [parameter...] ['prog'] [-f progfile]
+        awk format.
+    awk -F ':' '{print $1 $3}' xxx.txt
+        Use ':' to split each line and print field 1 and field 3 of file xxx.txt
+
+=== B
+### brasero
+### bc
+    echo "1.212*3" | bc
+    echo "scale=2;3/8" | bc
+        Keep 2 decimal
+    echo "10^10" | bc
+    echo "sqrt(100)" | bc
+
+
+=== C
+### cat
+    cat 1.txt 2.txt > 3.txt
+        Merget 1.txt and 2.txt
+
+### cmp
+    cmp file1 file2
+        compare 2 files
+    cmp -l file1 file2
+
+### cmake
+    cmake -DCMAKE_INSTALL_PREFIX=/home
+    cmake -DBOOST_ROOT=/usr/local/boost159/
+
+### cpupower
+    cpupower frequency-set -g performance
+        Set governer performance
+    cpupower frequency-set -u 3.49GHz
+        Set CPU max frequency
+
+### crontab
+    crontab -l
+        Show crontab settings for current user.
+    crontab -e
+        Edit crontab settings for current user.
+        * * * * * /home/run.sh
+            Run every minute.
+        0 * * * * /home/run.sh
+            Run every xx:00
+        0 3 * * * /home/run.sh
+            Run every 03:00
+        */10 * * * * /home/run.sh
+            Run every 10 minutes
+    crontab -r
+        Remove crontab settings for current user.
+
+### cscope
+    cscope -Rbq     - Initialize
+        Ctrl + ]    -  Go to the implementation of the function. 
+
+    cs find c|d|e|f|g|i|s|t name
+        0 or s  查找本 C 符号(可以跳过注释)
+        1 or g  查找本定义
+        2 or d  查找本函数调用的函数
+        3 or c  查找调用本函数的函数
+        4 or t  查找本字符串
+        6 or e  查找本 egrep 模式
+        7 or f  查找本文件
+        8 or i  查找包含本文件的文件
+
+    Ctrl + o    -   Jump to previous file
+ 
+### curl
+    curl -k -v -H 'X-Storage-User: test:tester' -H 'X-Storage-Pass: testing' http://192.168.0.162:8080/auth/v1.0
+
+### cut
+
+=== D
+### date
+    date +%s
+        Show date in seconds
+    date +%Y-%m-%d
+        Show date in "year-mon-day"
+    date --date='yesterday'
+        Show date of yesterday
+    date -d "2017-04-18" +%s
+        Show date "2017-04-18" in seconds
+    date -s 08/09/17
+        Set date.
+    date -s 14:00:00
+        Set time.
+### dd
+    dd if=/dev/zero of=data bs=100M count=1
+        Create file data that size is bs*count.
+    dd if=/dev/urandom of=data bs=100M count=1
+    dd if=/dev/zero of=data bs=100M
+    dd if=/dev/urandom of=data bs=100M
+### diffwww.iso.org/iso/home.html
+    diff -arNu src_dir dst_dir
+        Compare src_dir and dst_dir
+    diff -arNu src_dir dst_dir > 1.patch
+        Compare and generate a patch
+    diff -aru src_dir dst_dir > 1.patch	
+        Ignore new file, only compare existed files
+
+### dmg2img
+
+
+### dpkg
+    dpkg -l
+        Show all installed packages
+    dpkg -i xxx.deb
+        Install xxx.deb
+    dpkg -r xxx.deb
+        Remove xxx.deb
+
+# E
+### echo
+    echo -n "xxx"
+        Print xxx without \n
+    echo "`ps aux`"
+        Print results of `ps aux` with \r\n. Different with  echo `ps aux`
+
+### ethtool
+    ethtool -i eth1
+        Show netcard driver information
+    ethtool -k eth1
+        Show offload status of netcard
+    ethtool -K eth1 tso off
+        Set offload argument of netcard
+
+### expr
+    expr 2 + 2
+    expr 3 - 2
+    expr 3 \* 3
+    expr 4 / 2
+    expr 5 % 2
+    expr length "this is a test"
+        calculate the length of a string
+
+# F
+### file
+    file -s /dev/sda1
+        Check the file system
+
+### find
+    find ./ -type f \( -newermt '2017-05-20 00:00:00' -a -not -newermt '2017-05-20 23:59:00' \)
+        Find file between time '2017-05-20 00:00:00' and '2017-05-20 23:59:00'.
+    find ./ -type f \( -newermt '2017-05-20 00:00:00' -a -not -newermt '2017-05-20 23:59:00' -size +2M \)
+        Find file between time '2017-05-20 00:00:00' and '2017-05-20 23:59:00' and size > 2M.
+
+### fio
+    fio -filename=/dev/sdn1 \
+        -direct=1 -iodepth 1 -thread \
+        -rw=randwrite \
+        -ioengine=psync \
+        -bs=512k -size=2G -numjobs=10 -runtime=60 \
+        -group_reporting -name=mytest
+
+### ftp
+    ftp <hostname | IP>
+
+# G
+### gdb
+    gcc -g  main.c                      // Compile and add debug info
+    gdb a.out 
+    gdb <exe> <core.12345>
+        gdb show the core dump content.
+
+    (gdb) start                         // Begin
+    (gdb) n                             // run one line
+    (gdb) step/s                        // run next
+    (gdb) backtrace/bt                  // Check the trace
+    (gdb) info/i locals                 // Check local variables of current stack
+    (gdb) frame/f                       // Select stack
+    (gdb) print/p                       // Print value of varible
+    (gdb) finish                        // Run to current function and return
+    (gdb) set var sum=0                 // Modify value of varibale
+    (gdb) list/l line num of func       // Show source code
+    (gdb) display/undisplay sum         // Show value of variable
+    (gdb) break/b  line of func         // Set break point
+    (gdb) continue/c                    // Continue to run
+    (gdb) info/i breakpoints            // Show break points
+    (gdb) delete breakpoints 2          // Delete break points
+    (gdb) disable/enable breakpoints 3  // disable or enable break point
+    (gdb) break 9 if sum != 0           // enable break point if condition is true
+    (gdb) run/r                         // Rerun from the very beginning
+    (gdb) watch input[4]                // Set watch points
+    (gdb) info/i watchpoints            // Check watch points
+    (gdb) x/7b input                    // Print register value b means by bytes¿7 means 7 groups
+    (gdb) disassemble                   // disassemble
+    (gdb) si                            // Run code by instruction
+    (gdb) info registers                // Show all values of registers
+    (gdb) x/20 $esp                     // Show 2o values of memory
+
+### git
+    // config
+    git config --list
+        Show config details include git url.
+    git config --global http.sslverify false
+    git config --global user.name "Firstname Lastname"
+    git config --global user.email your_email@youremail.com
+
+    // Show and check
+    git status
+        Show all files change status.
+    git log
+        Show commit logs
+    git log <file>
+        Show commit logs for specific file
+    git show <commit hash>
+        Show file changes for specific commit
+    git show <tag>
+        Show information for specific tag
+
+    git mv -f oldfolder newfolder
+    git add -u newfolder
+    git clean -fd
+        Delete all untraced files and directories.
+
+    // branch
+    git branch
+        Show local branch
+    git branch -r
+        Show remote branch
+    git branch -a
+        Show local and remote branch
+    git branch <xxx>
+        Create local branch xxx
+    git checkout <xxx>
+        Checkout to specific branch xxx
+    git branch -d <xxx>
+        Delete local branch xxx
+    git push origin xxx
+        Push local branch xxx to remote branch
+    git push --delete origin xxx
+        Delete remote branch origin/xxx
+
+    git diff <commit 1> <commit 2>
+        Show diff between commit 1 and commit 2
+
+    git checkout <commit>
+        Checkout to specific commit
+    git checkout <file>
+        Give up modification about specific file
+    git pull
+        Update to latest commit of current branch
+    git add -N file
+        Add file and it can be shown by git diff
+    git remote	
+    git remote -v
+        Check the remote hosts
+    git stash
+        store local modification
+    git stash list
+        list local stash
+    git stash pop stash@{0}	
+
+    #### tag
+    git tag
+        Show all tags
+    git tag -l '1.4*'
+        Show tags '1.4*'
+    git show <tag>
+        Show information about <tag>
+    git tag -a v1.4 -m 'my version 1.4'
+        Add a tag, tag name is v1.4, tag decsription is 'my version 1.4'.
+    git tag -a v1.3 -m 'my version 1.3' <commit>
+        Add a tag, tag name is v1.3, tag decsription is 'my version 1.3', commit is <commit>.
+    git push origin --tags
+        Push all local tags to remote server.
+
+    git commit -a -m "msg"
+        Commit into branch
+    git push
+        Push to remote repository
+    git push origin foo
+        Push branch foo to remote repository
+
+    git rev-parse HEAD
+        Get current commit.
+
+    // BACKUP
+    git checkout Impala2.6-gcc4.9
+    git pull
+    git branch Impala2.6-gcc4.9_bak
+    git push origin Impala2.6-gcc4.9_bak:Impala2.6-gcc4.9_bak
+
+    // RESET on local
+    git checkout Impala2.6-gcc4.9
+    git pull
+    git log
+    git reset --hard 282cbfbca0f8c9f1aaa7a4a224e3c61aaa576c5c
+
+    // DELETE remote
+    git push origin :Impala2.6-gcc4.9
+
+    // Push to remote
+    git push origin Impala2.6-gcc4.9
+
+    // Create branch from another repository
+    git remote add <fork> <repo url>
+    git fetch <fork>
+    git checkout -b <main> <fork/master>
+    git push origin <main>
+
+### grep
+    grep -E '123|abc' filename
+        grep 123 or abc
+    grep -A 1 "xxx" filename
+        grep "xxx" and show after 1 line
+    grep -B 1 "xxx" filename
+        grep "xxx" and show before 1 line
+    grep -i xxx
+        grep and ignore upcase and downcase
+    grep -a xxx
+        grep text and ignore binary
+
+### grubby
+    grubby --info=ALL
+    grubby --default-index
+    grubby --set-default-index=0
+    grubby --update-kernel=0 --args="ro  LANG=en_US.UTF-8"
+
+# H
+### hexdump
+    hexdump -n 20 file
+        Show the first 20 bytes of file.
+
+### hg
+    hg clone xxx
+    hg log 
+
+# I
+### iostat
+
+
+### ip
+    ip a
+    ip addr add <192.168.0.1/24> dev <eth0>
+    ip addr del <192.168.0.1/24> dev <eth0>
+    ip addr show <eth0>
+    ip link set <eth0> up
+    ip link set <eth0> down
+    ip link set <eth0> mtu 8000
+    ip link set <eth0> name <eth1>
+
+    ip -s -s link ls <dev>
+
+    ip route show
+
+### iperf
+    iperf -s
+        Init a server on a host.
+    iperf -c IP
+        Test the bandwidth with IP.
+
+### ipmitool
+    ipmitool -I lanplus -U admin -P admin -H <IP> power status
+    ipmitool -I lanplus -U admin -P admin -H <IP> sol activate
+        Remote connection:
+    ipmitool -I lanplus -U admin -P admin -H <IP> chassis bootdev bios
+
+    ipmitool dcmi power activate
+    ipmitool dcmi power set_limit limit 1650
+        Set power limit to 1650 watts
+    ipmitool sdr elist
+        Sendor data repository
+        
+    ipmitool lan set 1 vlan off
+        
+
+    ipmitool -I lanplus -U ADMIN -P ADMIN -H 9.3.90.84 power status
+
+### iptables
+    iptables -L
+        List all rules.
+    iptables -F
+        Flush all rules.
+    iptables -A INPUT -p TCP --dport 31500 -j ACCEPT
+
+# J
+### jar
+    jar -tvf xxx.jar
+        Show the content of xxx.jar
+
+### javap
+    javap xxx.class
+        Decompile the code
+
+
+### jinfo
+    jinfo -flag CICompilerCount 15005
+        Check flag value of CICompilerCount of pid 15005
+
+### jps
+    install openjdk-devel if no this command
+
+### jstat
+    jstat -gc <pid>
+        S0C     - Capaciy of S0 (Bytes)
+        S1C     - Capaciy of S1 (Bytes)
+        S0U     - Use of S1 (Bytes)
+        S1U     - Use of S1 (Bytes)
+        EC      - Capacity of Eden (Bytes)
+        EU      - Use of Eden (Bytes)
+        OC      - Capacity of Old generation
+        OU      - Use of Old generation
+        MC      - Capacity of Method
+        MU      - Use of Method
+        CCSC    - Capacity of Compressed Class
+        CCSU    - Use of Compressed Class
+        YGC     - Young GC counts   
+        YGCT    - Young GC time
+        FGC     - Full GC(old) counts
+        FGCT    - Full GC(old) time
+        GCT     - GC time overall
+    jstat -gcutil <pid> 2s
+        The percentage of usage
+    jstat -gccapacity <pid>
+        NGCMN   - Min capacity of New
+        NGCMX   - Max capacity of New
+        NGC     - Capacity of current New
+        OGCMN   - Min capacity of Old
+        OGCMX   - Max capacity of Old
+        OGC     - Capacity of current Old
+        MCMN    - Min capacity of Method
+        MCMX    - Max capacity of Method
+
+# K
+    kexec -l vmlinuz --initrd=initrd.img ¨Cappend="ks=http://9.115.250.6/temp/1.answer"
+    kexec -l vmlinuz --initrd=initrd.img ¨Cappend="ip=192.168.0.22::192.168.0.1:24:rhel:net0:none \
+        ifname=net0:a0:42:3f:28:46:fe \
+        nameserver=9.0.6.11 9.0.7.1 \
+        repo=http://9.115.250.6/os/rhel/7.2/iso/ \
+        root=live:http://9.115.250.6/os/rhel/7.2/iso/LiveOS/squashfs.img"
+
+# L
+### last
+
+### ldd
+
+### ln
+    ln -s xxx xxx_link
+        Create a soft link xxx_link for xxx.
+### ls
+    ls -l | wc -l
+        Print file numbers.
+
+### lsb_release
+    lsb_release -a
+        Print ubuntu version.
+
+### lsof
+    lsof -i
+        Print process related with ipv4 ipv6.
+    lsof -i :8080
+        Print process related with port 8080.
+
+### lspci
+    lspci -vnn
+        Print verbose pci information.
+
+# M
+### memcached
+    memcached -d -u root
+
+
+### mkfs
+
+### mkinitrd
+    mkinitrd -v --with=aacraid --with=megaraid_sas --with=mpt3sas -f /boot/initramfs-$(uname -r).img $(uname -r)
+        Make a new initramfs with some storage driver.
+
+### mount
+    mount [-t vfstype] [-o options] device dir
+    mount -oloop *.iso /root/RHEL72_ppc64le
+
+### mvn
+    mvn compile
+    mvn package
+    mvn -DskipTests
+
+### mysql
+
+=== N
+### nc
+    yum install -y nc
+
+### netstat
+    netstat -atnp
+        Show all tcp ports number and PID.
+
+### nm
+    nm -s *.o
+        list all the symbols of a obj file.
+    nm -C *.a
+        list 
+    nm -Do xxx.so
+        list all the functions of a so file.
+        A : 该符号的值是绝对的，在以后的链接过程中，不允许进行改变。这样的符号值，常常出现在中断向量表中，例如用符号来表示各个中断向量函数在中断向量表中的位置。
+        B : 该符号的值出现在非初始化数据段(.bss)中。例如，在一个文件中定义全局static int test。则该符号test的类型为b，位于bss section中。其值表示该符号在bss段中的偏移。一般而言，bss段分配于RAM中 。
+        C : 该符号为common。common symbol是未初始话数据段。该符号没有包含于一个普通section中。只有在链接过程中才进行分配。符号的值表示该符号需要的字节数。例如在一个c文件中，定义int test，并且该符号在别的地方会被引用，则该符号类型即为C。否则其类型为B。
+        D : 该符号位于初始化数据段中。一般来说，分配到.data section中。例如定义全局int baud_table[5] = {9600, 19200, 38400, 57600, 115200}，则会分配于初始化数据段中。
+        G : 该符号也位于初始化数据段中。主要用于small object提高访问small data object的一种方式。
+        I : 该符号是对另一个符号的间接引用。
+        N : 该符号是一个debugging符号。
+        R : 该符号位于只读数据段。例如定义全局const int test[] = {123, 123};则test就是一个只读数据区的符号。注意在cygwin下如果使用gcc直接编译成MZ格式时，源文件中的test对应_test，并且其符号类型为D，即初始化数据段中。但是如果使用m6812-elf-gcc这样的交叉编译工具，源文件中的test对应目标文件的test,即没有添加下划线，并且其符号类型为R。一般而言，位于rodata section。值得注意的是，如果在一个函数中定义const char *test = “abc”, const char test_int = 3。使用nm都不会得到符号信息，但是字符串“abc”分配于只读存储器中，test在rodata section中，大小为4。
+        S : 符号位于非初始化数据段，用于small object
+        T : 该符号位于代码段text section。
+        U : 该符号在当前文件中是未定义的，即该符号的定义在别的文件中。例如，当前文件调用另一个文件中定义的函数，在这个被调用的函数在当前就是未定义的；但是在定义它的文件中类型是T。但是对于全局变量来说，在定义它的文件中，其符号类型为C，在使用它的文件中，其类型为U。
+        V : 该符号是一个weak object。
+        W : The symbol is a weak symbol that has not been specifically tagged as a weak object symbol.
+        - : 该符号是a.out格式文件中的stabs symbol。
+        ? : 该符号类型没有定义
+
+### nmon
+### ntpdate
+    ntpdate -u ntp.api.bz
+
+### numactl
+    numactl -H
+
+
+### nvidia-smi
+    nvidia-smi
+        List all GPUs details.
+    nvidia-smi -l 5
+        List all GPUs details every 5 seconds.
+    nvidia-smi -L
+        List all GPUs connected to system.
+    nvidia-smi -q -i0
+
+# O
+### objdump
+
+# P
+### parted
+
+### patch
+    patch -p0 < v1.patch
+        Add patch, without remove directory
+    patch -p1 < v1.patch
+        Add patch, remove the first directory
+    patch -RE -p0 < v1.patch
+        Undo patch
+
+### perf
+    perf list
+        List all supported perf events.
+    perf stat <command>
+        Overview statistics of program execution.
+    perf record -g -o "1.perf" [<command>]
+    perf record -a -g -o "1.perf" -- sleep 60
+        Record 60s, output is 1.perf
+    perf report
+    perf report -i <file>
+    perf report --max-stack=0 --stdio
+        The callchain stack is 0, output is text
+    perf annotate
+    perf top
+
+    # output of 'perf stat':
+    task-clock (msec)
+    context-switches
+    cpu-migrations
+    page-faults
+    cycles
+    stalled-cycles-frontend
+    stalled-cycles-backend
+    instructions
+    branches
+    branch-misses
+
+### pigz
+    Multi-thread compress
+
+### tar
+    tar -tvf xxx
+        List files.
+    tar -xf xxx.tar.gz -C /xxx/
+        Uncompress xxx.tar.gz to directory /xxx/
+    tar -cf - raw-data | pigz -p 40 >raw-data.tar.gz
+
+
+### pip
+    # Install pip
+    # wget https://pypi.python.org/packages/source/p/pip
+    # python setup.py install
+
+    # Commands
+    pip install xxx
+        Install python package download from PyPI
+    pip install xxx==1.20
+        Install xxx version is 1.20
+    pip install -U xxx
+        Upgrade xxx
+    pip install --user xxx
+        Install under current user directory
+    pip uninstall xxx
+        Uninstall xxx
+    pip list
+        List packages already installed
+    pip download xxx
+        Download package
+    pip search xxx
+        Search python package.
+
+### pkg-config
+    pkg-config --libs --cflags opencv
+        Show C flags information for lib opencv.
+        It search xxx.pc and then find all the information. /usr/lib64/pkgconfig/*.pc
+    pkg-config --list-all
+        List all packages.
+    pkg-config --libs --cflags glib-2.0
+        List libs and cflags for glib-2.0
+
+### ps
+    ps -e -o ppid,stat | grep Z | cut -d" " -f2 | xargs kill -9
+        Kill zombie process
+
+### python
+    python -m a.py
+    python setup.py install
+
+# Q
+### quilt
+    quilt import 1.diff
+        Import diff to project patches.
+    quilt applied
+        Check current applied patch.
+    quilt unapplied
+    quilt top
+    quilt push -a
+    quilt series
+
+# R
+### readelf
+    ELF(Executable and Linking Format) defines how the object is comprised and organized.
+
+### readlink
+    readlink /usr/bin/awk
+    readlink -f /usr/bin/awk
+
+### rename
+    rename <old> <new> <old.file>
+
+### renice
+	renice -n -20 -p <PID>
+		Modify the priority of PID.
+
+### rm
+    rm -rf `ls|grep ".exe"`
+        Remove all files that contains .exe
+    rm -rf `ls|grep -v xxx`
+        Remove all files and directories except xxx.
+    rm -- -l
+        Remove special character.
+    rm ./-l
+        Remove special character.
+
+### route
+    route -n
+        Show route
+        The output description:
+        Destination ->  The destination network or destination host.
+        Gateway     ->  The gateway address or '*' if none set. 
+        Genmask     ->  The netmask for the destination net; '255.255.255.255' for a host destination and '0.0.0.0' for the default route.
+        Flags:
+        o U (route is up)
+        o H (target is a host)
+        o G (use gateway)
+        o R (reinstate route for dynamic routing)
+        o D (dynamically installed by daemon or redirect)
+        o M (modified from routing daemon or redirect)
+        o !  (reject route)
+        o A (installed by addrconf)
+    route add -net 10.0.20.0 netmask 255.255.255.0 gw 10.0.20.1 dev eth0
+        Add a route. 
+    route add default gw 192.168.10.30
+        Add a default gateway. Only one default is needed.
+    route del -net 10.0.20.0 netmask 255.255.255.0 gw 10.0.20.1 dev eth0
+        Del a route.
+ 
+### rpm
+    rpm -qpl xxx.rpm
+        List file information of xxx.rpm.
+    rpm -ivh --badreloc --relocate /opt/at8.0=/install/at8.0/ advance-toolchain-at8.0-*
+        relocate the install directories
+    rpm -ivh xxx.rpm --nodeps --force
+        force install
+    rpm -e xxx
+
+### rpmbuild
+
+### rpm2cpio
+    rpm2cpio xxx.rpm | cpio -div
+        Uncompress xxx.rpm.
+
+### rsync
+    rsync --daemon
+        Start rsync service. vim /etc/rsyncd.conf
+
+# S
+
+### sar
+    sar -n DEV 2
+### sed
+    sed -i "s/old/new/g" <file>
+        Replace "old" using "new" all in file <file>
+    sed -i "1s/old/new/g" <file>
+        Replace "old" using "new" in line 1.
+    sed -i "1,3s/old/new/g" <file>
+        Replace "old" using "new" in line 1-3.
+    sed -n '1,20p' file.txt
+        Print lines 1-20 of file.txt.
+    sed '1c hello' file.txt
+        Replace line 1 with hello
+    sed '1,2c hello' file.txt
+        Replace line 1-2 with hello
+
+### screen
+    screen
+        Create a new screen.
+    screen -S <screen name>
+        Create a new screen with name.
+    screen -ls
+        List all screens.
+    screen -d <sessionid>
+        Detach a screen.
+    screen -r <sessionid>
+        Reconnect the detached screen.
+    screen -h 10000
+        Set the size of the scrollback history buffer as 10000 lines
+    screen -L 
+        Begin to log the screen window
+    
+    Operations in the Windows:
+    Ctrl-a "        List all windows to select
+    Ctrl-a Space    Switch between windows
+    Ctrl-a w        List all windows
+    Ctrl-a K        kill current window
+    Ctrl-a d        Detach the screen
+    Ctrl-a A        Rename the window
+    Ctrl-a S        Create new windows in horizontal
+    Ctrl-a Tab      Switch between windows
+    Ctrl-a X        Close current window
+    Ctrl-a +        Increase current window, increase 3 lines by default
+    Ctrl-a -        Decrease current window, decrease 3 lines by default
+    
+    Ctrl-a H        Record screen history to a file. Repeat to stop record.
+    
+    Ctrl-a :resize <height>         Change height of current window
+    Ctrl-a :quit                    Exit screen, close all screen clients, close all works
+    
+    Ctrl-a <Esc>        Enter into window select mode
+        <PageUp>        Page up 
+        Ctrl-u          Page up 
+        <PageDown>      Page down
+        Ctrl-d          Page down
+        <Left> or h     Left 1 
+        <Down> or j     Down 1
+        <Up> or k       Up 1
+        <Right> or l    Right 1
+        <Space>         Begin to select, stop to select
+        <Esc>           Exit from window select mode
+    
+        Ctrl-a ]            Paste selected value
+    
+    # ~/.screenrc
+
+### sfdisk
+
+### socat
+    socat tcp-listen:12345 -
+        Listen port 12345
+    echo "test" | socat - tcp-connect:127.0.0.1:12345
+        Send text to remote host:port
+
+### sort
+    sort xxx
+        Sort the lines in file xxx.
+
+### ssh
+    ### Without password
+        cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+    ssh -p $port $user@$p 'cmd'
+
+### ssh-keygen
+    ssh-keygen -t rsa -b 4096 -C "xlhu@cn.ibm.com"
+
+### sshpass
+
+### su
+    su - <user> -c <command>
+    su - <user> -s /bin/bash <shell.sh>
+
+
+### sudo
+    sudo -s
+        hange to root.
+### smbclient
+    smbclient -L ioa-test.cn.ibm.com -U iso%123456
+    smbclient //ioa-test.cn.ibm.com/IOA_Home -U iso%123456
+
+### sysctl
+    sysctl -a
+        Display all system settings.
+    sysctl -p
+        Reload from /etc/sysctl.conf
+
+# T
+
+### tar
+    tar -zcf xxx.tar.gz xxx
+    tar -zxf xxx.tar.gz
+    tar -xf xxx.tar.gz -C xxx_dir
+        Uncompress to xxx_dir
+
+
+### taskset
+
+### tcpdump
+    tcpdump tcp port 31500
+
+### tee
+    ls | tee ls.log
+        Show content of `ls` and save in ls.log.
+
+
+
+### time
+    The output of time is standard error.
+    time ./a.out 2>&1 only redirects standard error of a.out to standard out.
+
+    (time ./a.out) 2>&1 | tee logfile
+
+### timedatectl
+    timedatectl status
+    timedatectl list-timezones
+ 
+### touch
+    touch -d "6:03pm" file
+        Modify file with a specified time.
+
+
+# U
+### ulimit
+    ulimit -a
+        Show ulimit settings.
+    ulimit -n 2048
+        Set max open files.
+
+        ulimit only takes effect for current login session.
+        If want to modify it permanently, modify /etc/security/limits.conf
+        See /etc/security/limits.conf
+
+### uniq
+    uniq -c xxx
+        Show the lines and duplicated number.
+    sort xxx | uniq -c
+        Sort firstly.
+    sort xxx | uniq -d
+        Only show duplicate lines
+    sor xxx | uniq -D
+        Show duplicate lines, show how many duplicated lines
+
+
+### unzip
+    unzip xxx.zip -d xxx
+        unzip xxx.zip to direcotory xxx
+
+### usermod
+    sudo usermod -G sudo xlhu
+        Add user xlhu into the sudo group.
+    usermod -G hadoop xlhu
+        Add user xlhu into hadoop group.
+
+### uwsgi
+    uwsgi --http :8000 --wsgi-file main.py
+
+# V
+### vim
+    #### config
+        vim /etc/vim/vimrc
+        set ts=4
+            Set tab using 4 space
+        set expandtab
+            Expandtab to space
+        set autoindent
+        set noautoindent
+        set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+            Use different file encodings to open a file
+
+    #### command mode
+        o                    -   add empty line below, and enter input mode
+        O                    -   add empty line above, and enter input mode
+        i                    -   enter input mode
+        a                    -   enter input mode
+        yy                   -   Copy
+        p                    -   Paste
+        dd                   -   Delete
+        v                    -   Enter visual mode
+        G                    -   Jump to end
+        gg                   -   Jump to begin 
+        <num><enter>         -   Jump to <num> line below
+        Ctrl+o               -   Jump to previous cursor
+        Ctrl+i               -   Jump to next cursor
+        gd                   -   Select current word
+        Ctrl+v               -   Block edit mode
+        Ctrl+v, then d       -   Delete multi lines
+        Ctrl+v, then c       -   Substitute multi lines
+        Ctrl+v, then I       -   Edit multi lines
+        Ctrl+6               -   Switch between multiple files.
+        u                    -   Undo the previous
+        Ctrl+r               -   Repeat the previous
+
+    #### bottom command mode
+        :f
+            Show file name
+        :<num><enter>
+            Jump to line <num>  
+        :%!xxd
+            Display in hex
+        :%!xxd -r
+            Display in text
+        :set ts=4
+            Set tabspace=4
+        :set expandtab
+            Expandtab to space
+        :%s/x/y/g
+            Substitute all x with y.
+        :%s/\s\+\//g
+            Substitute all spaces.
+        :d1G
+            Delete all lines before cursor.
+        :dG
+            Delete all lines aftere cursor.
+        :,$d
+            Delete all lines after cursor
+        :colorscheme pablo
+            Set color scheme.
+        :open 2.txt
+            Open another file 2.txt
+        :bp
+            Previous file
+        :bn
+            Next file
+
+    #### remove 
+        :%s///g
+        ctrl+v = ^
+        ctrl+m = M
+
+### vncserver
+    vncserver -list
+        Show vncservers.
+    vncserver :<num>
+        Start a vncserver.
+
+    # If fogot vnc password
+        rm -rf ~/.vnc/passwd and create a new vncserver.
+
+
+# W
+### w3m
+    w3m www.baidu.com
+        No browser to view web
+### wc
+    wc -l
+### wget
+    wget xxx -P /path/
+        Download to specific directory.
+    wget xxx -O xxx
+        Download to new output file.
+    wget xxx --user=USER --password=PASS
+        Download with username and password.
+    wget xxx -c -t 10
+        Continue from the breakpoint and try 10 times
+
+# 
+### xargs
+
+# Y
+### yum
+    yum clean
+    yum repolist
+        list repository
+    yum search <package>
+        search package
+    yum info <package>
+        show package information
+    yum install xxx --downloadonly
+        /var/cache/yum/ is default download dir
+    yum install xxx --downloadonly --downloaddir=/tmp
+        /tmp is the specified dir
+    yum erase xxx
+        remove xxx
+
+# Z
+### zip
+    zip -r yinyin.zip yinyin

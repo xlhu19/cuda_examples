@@ -1,0 +1,6 @@
+
+val spark = SparkSession
+  .builder()
+  .appName("Spark Streaming Test")
+  .getOrCreate()
+

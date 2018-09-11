@@ -1,0 +1,79 @@
+*** What is JIT compiler
+    JIT compiler includes C1, C2, Tiered compilation.
+
+    The C1 compiler is enabled through the "-client" JVM startup option.
+    C1 is a client-side compiler.
+    It is designed for client-side applications that have fewer resources available and are, in many cases, sensitive to application startup time.
+    C1 use performance counters for code profiling to enable simple, relatively unintrusive optimizations.
+
+    For long-running applications such as server-side enterprise Java applications, a client-side compiler might not be enough.
+    A server-side compiler like C2 could be used instead.
+    C2 is usually enabled by adding the JVM startup option -server to your startup command-line.
+    Since most server-side programs are expected to run for a long time,
+    enabling C2 means that you will be able to gather more profiling data than you would with a short-running light-weight client application.
+    So you'll be able to apply more advanced optimization techniques and algorithms.
+
+    Tiered compilation combines client-side and server-side compilation.
+    -xx:+TieredCompilation
+
+*** Set code cache size
+    –XX:ReservedCodeCacheSize=Nflag
+    -XX:InitialCodeCacheSize=N
+
+*** When trigger JIT compiler
+    -XX:CompileThreshold=Nflag
+    For C1, N default is 1500
+    For C2, N default is 10000
+
+*** How to check compilation
+    -XX:+PrintCompilation
+    jstat -compiler PID
+
+    The output of PrintCompilation example:
+    1401 70    java.util.concurrent.ConcurrentHashMap::hash (49 bytes)
+    1412 71    java.lang.String::indexOf (7 bytes)
+    1420 72 !  java.io.BufferedReader::readLine (304 bytes)
+    1420 73    sun.nio.cs.UTF_8$Decoder::decodeArrayLoop (543 bytes)
+    1422 42    java.util.zip.ZipCoder::getBytes (192 bytes) made not entrant
+    1435 74  n java.lang.Object::hashCode (0 bytes)
+    1443 29 !  sun.misc.URLClassPath$JarLoader::getResource (91 bytes) made zombie
+    1443 25    sun.misc.URLClassPath::getResource (74 bytes) made zombie
+    1443 36    sun.misc.URLClassPath::getResource (74 bytes) made not entrant
+    1443 43    java.util.zip.ZipCoder::encoder (35 bytes) made not entrant
+    1449 75    java.lang.String::endsWith (15 bytes)
+    1631 1  %  sun.misc.URLClassPath::getResource @ 39 (74 bytes)
+    1665 76    java.lang.ClassLoader::checkName (43 bytes)
+
+    !    means exception handling in here
+    n    means native method
+    %    means method has been replaced while running (OSR)
+    76   is sequence number of complication.
+    1665 is millis from JVM start
+
+*** How C2 work
+    bytecode -> ideal graph -> binary
+
+    Use the following option can print ideal graph information.
+    -XX:+PrintIdeal -XX:PrintIdealGraphLevel=2 -XX:PrintIdealGraphFile=./ideal.log
+
+    Use the following option to print log
+    -XX:+TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:+LogCompilation -XX:+TraceClassLoading -XX:LogFile=/home/jit.disableAOT.%p.log -XX:+ProfileAOTScheduling:dir=/home/
+
+*** Build a debug version jvm
+    ./configure --enable-debug
+    make all CONF=linux-ppc64le-normal-server-fastdebug
+
+*** JITwatch
+    https://github.com/AdoptOpenJDK/jitwatch
+
+    Use "mvn clean compile test exec:java" to run the UI
+    If there are 2 failed cases, use "mvn clean compile exec:java" to ignore it.
+
+*** HSDB
+    HSDB is a debug tool
+    java -cp $JAVA_HOME/lib/sa-jdi.jar sun.jvm.hotspot.HSDB
+    java -cp $JAVA_HOME/lib/sa-jdi.jar sun.jvm.hotspot.CLHSDB
+
+    printmdo
+        print method data
+
