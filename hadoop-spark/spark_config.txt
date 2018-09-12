@@ -1,0 +1,13 @@
+
+
+spark-env.sh
+    HADOOP_HOME
+
+spark-defaults.conf
+    spark.eventLog.dir               file:///home/test1/xlhu/SparkEventLog/
+    spark.history.fs.logDirectory    file:///home/test1/xlhu/SparkEventLog/
+
+    * Should specify spark.history.fs.logDirectory if spark.eventLog.dir is defined.
+
+    spark.executor.extraJavaOptions -XX:+TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:+LogCompilation
+

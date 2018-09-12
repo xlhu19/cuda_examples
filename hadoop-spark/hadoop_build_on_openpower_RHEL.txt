@@ -1,0 +1,106 @@
+############################
+# Prerequisites
+############################
+yum install lzo-devel zlib-devel autoconf automake \
+ncurses-devel openssl-devel libXtst unzip patch gcc gcc-c++ \
+cmake -y
+
+############################
+# Install java
+############################
+yum install java-1.7.0-openjdk java-1.7.0-openjdk-devel
+vi /etc/profile
+export JAVA_HOME="/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.121-2.6.8.0.el7_3.ppc64le"
+source /etc/profile
+
+############################
+# Install protobuf
+############################
+wget https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+tar -zxf protobuf-2.5.0.tar.gz
+cd protobuf-2.5.0
+wget https://gist.github.com/BennettSmith/7111094/archive/40085b5022b5bc4d5656a9906aee30fa62414b06.zip
+unzip 40085b5022b5bc4d5656a9906aee30fa62414b06.zip
+mv 7111094-40085b5022b5bc4d5656a9906aee30fa62414b06/ protobuf_patch
+patch -p1 <protobuf_patch/0001-Add-generic-gcc-header-to-Makefile.am.patch
+patch -p1 <protobuf_patch/0001-Add-generic-GCC-support-for-atomic-operations.patch
+./configure --build=ppc64le
+make
+make install
+cd ..
+
+############################
+# Install ant
+############################
+wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.4-bin.tar.gz
+tar -zxf apache-ant-1.9.4-bin.tar.gz
+vi /etc/profile
+export ANT_HOME=/home/xlhu/apache-ant-1.9.4
+export PATH=$PATH:$ANT_HOME/bin
+source /etc/profile
+
+############################
+# Install maven
+############################
+wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+tar -zxvf apache-maven-3.3.9-bin.tar.gz
+vi /etc/profile
+export MAVEN_HOME=/home/xlhu/apache-maven-3.3.9
+export PATH=$PATH:$MAVEN_HOME/bin
+source /etc/profile
+
+############################
+# Install findbugs
+############################
+wget http://jaist.dl.sourceforge.net/project/findbugs/findbugs/3.0.1/findbugs-3.0.1.tar.gz
+tar -zxf findbugs-3.0.1.tar.gz
+echo 'export FINDBUGS_HOME=/home/xlhu/findbugs-3.0.1'>>/etc/profile
+echo 'export PATH=$PATH:$FINDBUGS_HOME/bin'>>/etc/profile
+source /etc/profile
+
+############################
+# Install snappy
+############################
+wget https://github.com/google/snappy/releases/download/1.1.3/snappy-1.1.3.tar.gz
+tar -xf snappy-1.1.3.tar.gz
+cd snappy-1.1.3
+./configure
+make -j8;make install
+cd ..
+
+############################
+# Install hadoop
+############################
+wget http://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-3.0.0-beta1/hadoop-3.0.0-beta1-src.tar.gz
+tar -zxf hadoop-3.0.0-beta1-src.tar.gz
+cd hadoop-3.0.0-beta1-src
+cd src/
+export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+mvn clean package -Pdist,native -DskipTests -Dtar -Drequire.snappy
+
+############################
+# Install lzo 2.09
+############################
+yum erase lzo
+yum erase lzo-minilzo
+wget http://www.oberhumer.com/opensource/lzo/download/lzo-2.09.tar.gz
+tar -zxf lzo-2.09.tar.gz
+cd lzo-2.09
+CFLAGS="-fPIC -DPIC" \
+CPPFLAGS="-fPIC -DPIC -std=gnu++14" \
+CXXFLAGS="-fPIC -DPIC -std=gnu++14" \
+./configure --enable-shared
+make
+make install
+
+############################
+# Install hadoop-lzo
+############################
+mkdir Imphala_prerequisites
+cd Imphala_prerequisites
+git clone https://github.com/twitter/hadoop-lzo.git
+cd hadoop-lzo
+C_INCLUDE_PATH=/usr/local/lzo-2.09/include \
+LIBRARY_PATH=/usr/local/lzo-2.09/lib \
+mvn package -DskipTests
+

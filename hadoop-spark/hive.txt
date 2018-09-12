@@ -1,0 +1,13 @@
+
+
+# Build hive
+git clone https://git-wip-us.apache.org/repos/asf/hive.git
+cd hive
+git checkout -b release-1.2.1 release-1.2.1
+mvn clean package -Pdist -Phadoop-2 -DskipTests
+
+hive default use embedded derby
+
+
+before use hive, must install hadoop and start-dfs.sh
+

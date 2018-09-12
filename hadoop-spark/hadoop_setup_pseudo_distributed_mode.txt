@@ -1,0 +1,36 @@
+
+# Build hadoop
+
+ssh-keygen
+ssh-copy-id localhost
+
+vim etc/hadoop/core-site.xml
+
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+
+vim etc/hadoop/hdfs-site.xml
+
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>
+
+vim ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.65-3.b17.el7.ppc64le/jre
+
+bin/hdfs namenode -format
+sbin/start-dfs.sh
+bin/hdfs dfs -mkdir /user/root
+
+http://localhost:50070/
+
+./bin/hdfs dfs -put src/BUILDING.txt ./
+./bin/hadoop fs -ls
+

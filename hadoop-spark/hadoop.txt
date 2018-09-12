@@ -1,0 +1,40 @@
+
+
+
+### Format namenode
+    hdfs namenode -format
+
+
+### Start service
+    ./sbin/start-dfs.sh
+        Start HDFS service, there will be NameNode, DataNode up.
+    ./sbin/start-yarn.sh
+        Start yarn service, there will be ResourceManager, NodeManager up.
+
+    mr-jobhistory-daemon.sh start historyserver
+        default web port 19888
+
+### Commands ##
+    hadoop fs -ls /
+    hadoop fs -mkdir /data
+    hadoop fs -rm -r /data
+    hadoop fs -du -h /data
+    hadoop fs -chmod -R 777 /tmp/
+    hadoop fs -put xxx /user/
+        Unload file xxx to /user/
+    hadoop fs -put xxx_dir /user/
+        Unload dir xxx_dir to /user/
+
+    yarn node --list
+    yarn node -status node1:45454
+
+
+start-dfs.sh
+    NameNode
+    SecondaryNameNode
+    DataNode
+
+start-yarn.sh
+    ResourceManager
+    NodeManager
+

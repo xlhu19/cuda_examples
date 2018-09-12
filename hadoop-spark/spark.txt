@@ -1,0 +1,50 @@
+
+
+
+RDD(Resilient Distributed Dataset)
+
+wget https://github.com/apache/spark/archive/v2.2.0.tar.gz
+
+# build spark with yarn
+build/mvn -Pyarn -Phadoop-2.x -Dhadoop.version=2.x.x -DskipTests clean package
+
+# start history server
+    default port 18080
+    ./sbin/start-history-server.sh
+
+# spark driver and executor
+driver is scheduler
+
+./bin/spark-submit --class org.apache.spark.examples.SparkPi \
+--master yarn \
+--deploy-mode cluster \
+--driver-memory 1g \
+--executor-memory 1g \
+--executor-cores 1 \
+--queue thequeue \
+examples/target/scala-2.11/jars/spark-examples*.jar 10
+
+
+./bin/spark-submit --master yarn \
+--num-executors 40 \
+--executor-cores 2 \
+--executor-memory 4g \
+--driver-memory 4g \
+examples/src/main/python/pi.py
+
+
+*** spark-submit options
+--driver-java-options "xxx"
+--conf spark.executor.extraJavaOptions="-XX:+TieredCompilation -XX:MaxPermSize=256m"
+
+--deploy-mode cluster
+    Driver will run on cluster
+--deploy-mode cluster
+    Driver will run on local
+
+### Issues
+1. /bin/bash: {{JAVA_HOME}}/bin/java: No such file or directory
+    spark built with hadoop version conflicts with hadoop version
+
+
+

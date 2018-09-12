@@ -1,0 +1,44 @@
+
+### .bashrc
+    - HADOOP_HOME
+      An environment variable to start hadoop.
+
+### etc/hadoop/hadoop-env.sh
+    Some environment variables, will override the env settings
+    - JAVA_HOME
+    - HADOOP_HOME
+    - HADOOP_CONF_DIR
+    * If don't specify it on slave, the master value will override it.
+
+### etc/hadoop/core-site.xml
+    - fs.defaultFS
+      The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation.
+      e.g: hdfs://master:9000
+    - hadoop.tmp.dir
+      A base for other temporary directories.
+      Default is /tmp/hadoop-${user.name}
+
+### etc/hadoop/hdfs-site.xml
+
+### etc/hadoop/mapred-site.xml
+    - mapreduce.jobhistory.webapp.address
+
+### etc/hadoop/yarn-site.xml
+    - yarn.nodemanager.resource.cpu-vcores
+      The number of vcores that nodemanager use.
+      This option is useful only on each slave.
+    - yarn.nodemanager.resource.memory-mb
+      The physical memory that nodemanager uses. Defalt is 8192 MB.
+      This option is useful only on each slave.
+    - yarn.resourcemanager.scheduler.class
+      Default  value: org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler
+      Optional value: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+
+### etc/hadoop/capacity-scheduler.xml
+    This config file is only used when yarn.resourcemanager.scheduler.class is set as *.scheduler.capacity.CapacityScheduler.
+### etc/hadoop/fair-scheduler.xml
+    This config file is only used when yarn.resourcemanager.scheduler.class is set as *.scheduler.fair.FairScheduler.
+
+*** Default port
+    8088    -  yarn.resourcemanager.webapp.address  -   Check RM
+ 
