@@ -1,0 +1,48 @@
+
+sudo apt-get install python3-pip
+sudo pip3 install Django
+sudo pip3 install psycopg2
+
+django-admin startproject jingdian
+cd jingdian
+python manage.py startapp index
+
+vim jingdian/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'index',
+]
+LANGUAGE_CODE = 'zh-hans'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'jingdian',
+        'USER': 'jingdian',
+        'PASSWORD': 'jingdian',
+        'HOST': '127.0.0.1',
+        'PORT': 5432
+    }
+}
+
+
+python3 manage.py migrate
+python manage.py createsuperuser
+
+python3 manage.py makemigrations index
+python3 manage.py sqlmigrate index 0001
+
+python manage.py shell
+
+
+from index.models import Jingdian_10
+q=Jingdian_10(jd_name='西湖', jd_name_py='xihu', jd_abstract='西湖是我国5A级风景区', jd_search_cnt=0)
+q.save()
+
+
+image size: 500x309
+

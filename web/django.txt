@@ -1,0 +1,40 @@
+
+
+pip install Django
+django-admin startproject mysite
+cd mysite
+python manage.py runserver 0:8000
+python manage.py startapp polls
+
+python manage.py createsuperuser
+
+python manage.py migrate
+
+python manage.py collectstatic
+
+
+SQlite
+
+import sqlite3
+conn = sqlite3.connect('test.db')
+cur = conn.cursor()
+cur.execute("select * from sqlite_master").fetchall()
+
+models.CharField(max_length=100)
+models.IntegerField()
+models.PositiveIntegerField()
+models.TextField()
+models.DateField()
+models.ManyToManyField(Person, through='Membership')
+models.OneToOneField()
+models.AutoField(primary_key=True)
+models.BooleanField(default=False)
+
+
+*** Modify object show name of model
+class PerformanceData(models.Model):
+    def __unicode__(self): # if it is python3 use __str__
+        return u'%s %s' % (self.test_name, self.mr_tput)
+
+
+

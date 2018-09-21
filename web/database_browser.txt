@@ -1,0 +1,58 @@
+
+
+pip3 install Django
+yum install postgresql
+yum install postgresql-server
+yum install postgresql-devel
+pip3 install psycopg2
+
+service postgresql start
+
+su - postgres
+psql
+\password postgres
+
+# Create a new user in database
+CREATE USER test WITH PASSWORD 'passw0rd1';
+CREATE DATABASE tencent_test_db OWNER test;
+GRANT ALL PRIVILEGES ON DATABASE tencent_test_db to test;
+
+
+django-admin startproject tencent_test_db
+python manage.py startapp db_browser
+
+vim tencent_test_db/settings.py
+ALLOWED_HOSTS = ['*']
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'db_browser',
+]
+LANGUAGE_CODE = 'zh-hans'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tencent_test_db',
+        'USER': 'test',
+        'PASSWORD': 'test',
+        'HOST': '127.0.0.1',
+        'PORT': 5432
+    }
+}
+
+python manage.py migrate
+
+
+python manage.py runserver 0:8001
+
+
+python manage.py makemigrations db_browser
+python manage.py sqlmigrate db_browser 0001
+
+
+
+

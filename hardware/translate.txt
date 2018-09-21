@@ -1,0 +1,7 @@
+
+offload
+downgrage 下降
+destage 转移
+trade off 权衡，平衡
+write hit 写命中
+read miss 读缺失

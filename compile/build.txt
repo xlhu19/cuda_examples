@@ -1,5 +1,4 @@
 
-
 ### C++ standard:
     - C++11
     - C++14
@@ -91,6 +90,7 @@ Build is comprised of "compile" and "link".
     CC=xxx ./configure
     CXX=xxx ./configure
     CC=/opt/at11.0/bin/gcc ./configure
+    CXXFLAGS="-std=c++11"
 
 ### Makefile
     A "Makefile" contains five kinds of things:

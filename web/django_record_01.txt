@@ -1,0 +1,37 @@
+
+create a simplest web.
+
+# pip install Django
+# django-admin startproject mysite
+# cd mysite
+# python manage.py startapp polls
+# vim mysite/settings.py
+    ALLOWED_HOSTS = ["*"]
+# vim mysite/urls.py
+    from django.conf.urls import include, url
+    from django.contrib import admin
+
+    urlpatterns = [
+        url(r'^polls/', include('polls.urls')),
+        url(r'^admin/', admin.site.urls),
+    ]
+# vim polls/urls.py
+    from django.conf.urls import url
+    from . import views
+
+    urlpatterns = [
+        url(r'^$', views.index, name='index'),
+    ]
+# vim polls/views.py
+    # -*- coding: utf-8 -*-
+    from __future__ import unicode_literals
+    from django.shortcuts import render
+    from django.http import HttpResponse
+
+    def index(request):
+        return HttpResponse("Hello, world.")
+
+# python manage.py runserver 0:8000
+
+http://127.0.0.1/polls/
+

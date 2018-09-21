@@ -1,0 +1,402 @@
+JavaScript = ECMAScript + DOM + BOM
+Web browsers are just one host environment in which an ECMAScript implementation may exist.
+
+---------------------------------------------------------------------------------
+JavaScript Variable
+---------------------------------------------------------------------------------
+### Variable Name Rule
+1. The first character must be '_', '$' or letter.
+2. The following characters must be '_', '$', letter or figure.
+3. Using one of the following case:
+	Camel-case: e.g. var testVaribale;
+	Pascal-case: e.g. var TestVaribale;
+	-------------------
+	匈牙利变量命名法
+	-------------------
+	数组   a   aValues
+	布尔   b   bFound
+	浮点   f   fValue
+	函数   fn  fnMethod
+	整形   i   iValue
+	对象   o   oType
+	正则   re  rePattern
+	字符串 s   sValue
+	变型   v   vValue
+
+### Variable Defination
+
+函数也是一种数据类型。
+
+var test;
+var test = "test";
+var test = "test", test2 = 25;
+var test = "test"; test = 25;
+var $1 = "h";
+
+if (typeof(reValue) == "undefined") {
+	alert("undefined");
+}
+typeof 返回的是字符串，有六种可能："number"、"string"、"boolean"、"object"、"function"、"undefined"
+
+
+变量使用前如果没有定义，这个变量自动成为全局变量。
+
+primitive value: store in stack
+reference value: store in heap
+
+Variable Type (6):
+undefined
+boolean
+string
+number
+object
+function
+
+---------------------------------------------------------------------------------
+Introduction & Principle
+---------------------------------------------------------------------------------
+JavaScript 的正式名称是 "ECMAScript"。这个标准由 ECMA 组织发展和维护。
+Javascript 是单线程。
+
+函数内部定义的变量如果不加 var, 就是全局变量。
+
+闭包就是能读取函数局部变量的函数。
+
+在Javascript中，如果一个对象不再被引用，那么这个对象就会被GC回收。
+如果两个对象互相引用，而不再被第3者所引用，那么这两个互相引用的对象也会被回收。
+
+setTimeout回调函数的执行和上一次执行之间的间隔至少有10ms（可能会更多，但不会少于10ms。
+setInterval的回调函数将尝试每隔10ms执行一次，不论上次是否执行完毕。
+
+<body>
+<script type="text/javascript">
+  document.write("Hello World!");
+</script>
+</body>
+
+---------------------------------------------------------------------------------
+1. document.write里的内容不能有回车符，否则网页会报错。
+2. <script src="js/test.js" type="text/javascript"></script>, src需要使用相对路径
+
+
+---------------------------------------------------------------------------------
+event & window.event
+---------------------------------------------------------------------------------
+IE：有window.event对象
+FF：没有window.event对象。可以通过给函数的参数传递event对象。如onmousemove=doMouseMove(event)
+解决方法：var event = event || window.event;
+example:
+<script>
+	function test(event) {
+		var event = event || window.event;
+		var element = event.srcElement || event.target;
+		//do Something
+	}
+</script>
+
+---------------------------------------------------------------------------------
+$
+---------------------------------------------------------------------------------
+$,是指prototype定义的一类方法
+
+$("id")  得到的是页面id为"id"的元素
+$F("id") 得到的是页面id为"id"的元素的值,这是只读的,不可写
+$() 方法是在DOM中使用过于频繁的 document.getElementById() 方法的一个便利的简写，
+就像这个DOM方法一样，这个方法返回参数传入的id的那个元素。
+
+$F()方法是另一个非常受欢迎的简写。它可以返回任何输入表单控件的值，如文本框或下拉框。
+这个方法可以传入元素的id或者元素自己
+
+---------------------------------------------------------------------------------
+Timer
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+位于 head 部分的脚本：
+当脚本被调用时，或者当事件被触发时，脚本就会被执行。
+位于 body 部分的脚本：
+在页面载入时脚本就会被执行。当你把脚本放置于 body 部分后，它就会生成页面的内容。
+在 body 和 head 部分的脚本：
+你可以在文档中放置任何数量的脚本，因此你既可以把脚本放置到 body，又可以放置到 head 部分。
+
+JavaScript 可以分批地组合起来。
+代码块以左花括号开始，以右花括号结束。
+代码块的作用是一并地执行语句序列。
+
+---------------------------------------------------------------------------------
+string process
+---------------------------------------------------------------------------------
+1. indexOf
+2. split
+
+---------------------------------------------------------------------------------
+JavaScript 数组
+---------------------------------------------------------------------------------
+var a = ['string', 1, 2, true]; // 创建数组
+var a = new Array('string', 1, 2, true); // 创建数组对象
+var a = new Array(20); // 创建初始长度为20的数组
+a.length 表示数组长度，数组长度是可以自动变化的。
+
+---------------------------------------------------------------------------------
+匿名函数
+---------------------------------------------------------------------------------
+匿名函数最大的用途是创建闭包（这是JavaScript语言的特性之一），并且还可以构建命名空
+间，以减少全局变量的使用。
+匿名函数避免数据污染。
+匿名函数避免内存常驻。
+
+---------------------------------------------------------------------------------
+闭包 (Closure)
+---------------------------------------------------------------------------------
+内层函数可以使用外层函数的所有变量，即使外层函数已经执行完毕。
+
+
+js中一切都是在window对象下实现的。
+没有用 var 申明的变量默认为全局变量。
+
+---------------------------------------------------------------------------------
+javascript取屏幕信息的一些对象
+---------------------------------------------------------------------------------
+　　网页可见区域宽：document.body.clientWidth
+　　网页可见区域高：document.body.clientHeight
+　　网页可见区域宽：document.body.offsetWidth (包括边线和滚动条的宽)
+　　网页可见区域高：document.body.offsetHeight(包括边线的宽)
+　　网页正文全文宽：document.body.scrollWidth
+　　网页正文全文高：document.body.scrollHeight
+　　网页被卷去的高：document.body.scrollTop
+　　网页被卷去的左：document.body.scrollLeft
+　　如果是框架网页，取得框架的对应方法是document.documentElement.XXX
+　　网页正文部分上：window.screenTop
+　　网页正文部分左：window.screenLeft
+　　屏幕分辨率的高：window.screen.height
+　　屏幕分辨率的宽：window.screen.width
+　　屏幕可用工作区高度：window.screen.availHeight
+　　屏幕可用工作区宽度：window.screen.availWidth
+　　屏幕设置是：window.screen.colorDepth(位彩色)
+　　屏幕设置：window.screen.deviceXDPI(像素/英寸)
+---------------------------------------------------------------------------------
+
+
+js动态生成html
+
+
+
+refresh iframe
+<input type="button" name="Button" value="Button" onclick="window.open(document.all.property_view.src,'property_view','')">
+
+
+
+
+
+<script type="text/javascript">
+  document.write("Hello World!");
+  document.write("<h1>" + name + "</h1>")
+</script>
+
+<script type="text/javascript" src="dropdowntabs.js"></script>
+
+var x=5;
+var carname="Volvo"
+
+
+
+---------------------------------------------------------------------------------
+document.write("Hello World!");
+Math.round(x); 四舍五入
+
+
+
+
+Framework
+jquery
+Edojs
+
+---------------------------------------------------------------------------------
+read/write file
+---------------------------------------------------------------------------------
+ActiveXObject 是微软的，只有IE支持
+<script type="text/javascript" language="javascript">
+function readFile(filename){
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var f = fso.OpenTextFile(filename,1);
+    var s = "";
+    while (!f.AtEndOfStream)
+        s += f.ReadLine()+"/n";
+    f.Close();
+    return s;
+}
+
+function writeFile(filename,filecontent){  
+    var fso, f, s ;  
+    fso = new ActiveXObject("Scripting.FileSystemObject");     
+    f = fso.OpenTextFile(filename,8,true);  
+    f.WriteLine(filecontent);    
+    f.Close();  
+    alert('write ok');  
+}  
+</script>  
+
+[javascript] 
+<!-- 
+object.OpenTextFile(filename[, iomode[, create[, format]]])  
+ 
+参数  
+object 必选项。object 应为 FileSystemObject 的名称。  
+filename 必选项。指明要打开文件的字符串表达式。  
+iomode 可选项。可以是三个常数之一：ForReading 、 ForWriting 或 ForAppending 。  
+create 可选项。Boolean 值，指明当指定的 filename 不存在时是否创建新文件。如果创建新文件则值为 True ，如果不创建则为 False 。如果忽略，则不创建新文件。  
+format 可选项。使用三态值中的一个来指明打开文件的格式。如果忽略，那么文件将以 ASCII 格式打开。  
+ 
+设置  
+iomode 参数可以是下列设置中的任一种：  
+常数          值         描述  
+ForReading    1      以只读方式打开文件。不能写这个文件。  
+ForWriting    2      以写方式打开文件  
+ForAppending  8      打开文件并从文件末尾开始写。  
+ 
+format 参数可以是下列设置中的任一种：  
+值                      描述  
+TristateTrue         以 Unicode 格式打开文件。  
+TristateFalse        以 ASCII 格式打开文件。  
+TristateUseDefault   使用系统默认值打开文件。
+---------------------------------------------------------------------------------
+获取当前文件名
+---------------------------------------------------------------------------------
+function getCurrentFileName(){
+  var url = this.location.href;
+  var pos = url.lastIndexOf("/");
+  if (pos == -1){
+    pos = url.lastIndexOf("\\");
+  }
+  var filename = url.substr(pos + 1);
+  alert(filename);
+  return filename;
+}
+
+
+function getFuncName(_callee) {
+  var _text = _callee.toString();
+  var _scriptArr = document.scripts;
+  for (var i=0; i<_scriptArr.length; i++) {
+    var _start = _scriptArr[ i].text.indexOf(_text);
+    if (_start != -1) {
+      if (/^function\s*\(.*\).*\r\n/.test(_text)) {
+        var _tempArr = _scriptArr[ i].text.substr(0, _start).split('\r\n');
+        return _tempArr[_tempArr.length - 1].replace(/(var)|(\s*)/g, '').replace(/=/g, '');
+      }
+      else {
+        return _text.match(/^function\s*([^\(]+).*\r\n/)[1];
+      }
+    }
+  }
+}
+
+arguments.callee
+
+match()
+
+
+---------------------------------------------------------------------------------
+Get current time
+---------------------------------------------------------------------------------
+<script type="text/javascript" language="javascript">
+  var currentDate = new Date();
+  outStr=outStr+"getYear："+currentDate.getYear()+"<br/>"; 
+ 
+  outStr=outStr+"getFullYear："+currentDate.getFullYear()+"<br/>";//获取完整的年份(4位,1970-????)
+
+  outStr=outStr+"getMonth："+currentDate.getMonth()+"<br/>";//获取当前月份(0-11,0代表1月)
+
+  outStr=outStr+"getDate："+currentDate.getDate()+"<br/>"; //获取当前日(1-31)
+
+  outStr=outStr+"getDay："+currentDate.getDay()+"<br/>";//获取当前星期X(0-6,0代表星期天)
+
+  outStr=outStr+"getTime："+currentDate.getTime()+"<br/>";//获取当前时间(从1970.1.1开始的毫秒数)
+
+  outStr=outStr+"getHours："+currentDate.getHours()+"<br/>"; //获取当前小时数(0-23)
+
+  outStr=outStr+"getMinutes："+currentDate.getMinutes()+"<br/>";//获取当前分钟数(0-59)
+
+  outStr=outStr+"getSeconds："+currentDate.getSeconds()+"<br/>";//获取当前秒数(0-59)
+
+  outStr=outStr+"getMilliseconds："+currentDate.getMilliseconds()+"<br/>";//获取当前毫秒数(0-999)
+
+  outStr=outStr+"toLocaleDateString："+currentDate.toLocaleDateString()+"<br/>";//获取当前日期
+
+  outStr=outStr+"toLocaleTimeString："+currentDate.toLocaleTimeString()+"<br/>";//获取当前时间
+
+  outStr=outStr+"toLocaleString："+currentDate.toLocaleString()+"<br/>";//获取日期与时间
+
+  document.write(outStr);
+</script>
+
+以上脚本效果如下：
+getYear：2011
+getFullYear：2011
+getMonth：8
+getDate：7
+getDay：3
+getTime：1315374802875
+getHours：13
+getMinutes：53
+getSeconds：22
+getMilliseconds：875
+toLocaleDateString：2011年9月7日 星期三
+toLocaleTimeString：13:53:22
+toLocaleString：2011年9月7日 星期三 13:53:22
+
+
+--------------------------------------------
+var testData = [{"user":"asd"}, {"user":"dfg"}];
+alert(testData.length);
+
+--------------------------------------------
+Random
+--------------------------------------------
+var sessionKey = Math.floor(10000000 + Math.random()*(99999999 - 10000000));
+
+
+--------------------------------------------
+Close browser & fresh
+--------------------------------------------
+	window.onbeforeunload = function(event) {
+		// var e = window.event || arguments.callee.caller.arguments[0];
+		// var event = window.event || event;
+
+		// ww = document.body.clientWidth;//扑捉窗口内容宽度 
+		// xx = e.clientX;//获取鼠标x坐标 
+		// noieclose = 1;
+
+		// alert(e.clientX + ":" + e.clientY);
+		// if (event.clientX < 0 || event.clientY < 0) {
+			// refresh = false;
+		// }
+		// else {
+			// refresh = true;
+		// }
+
+		// event.returnValue = "close";
+		// alert("beforeunload");
+		// event.returnValue = "close";
+		if (document.documentElement.scrollWidth != 0)  {
+			alert("refresh");
+		}
+		else {
+			cNavigation.logout();
+		}
+	};
+
+	window.onload = function(event) {
+		// alert("load");
+	};
+	window.onunload = function(event) {
+		// alert("unload");
+		// var e = window.event || event;
+		// event.returnValue = "close";
+		// if (refresh == true) {
+			// cNavigation.logout();
+		// }
+		// else {
+			// cNavigation.logout();
+		// }
+	};

@@ -1,0 +1,9 @@
+core
+html,css,javascript,backend
+
+
+ajax
+
+bootstrap => front-end framework
+
+jquery => javascript library

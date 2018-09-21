@@ -1,0 +1,21 @@
+
+service httpd start
+/etc/init.d/httpd start
+/etc/init.d/httpd status
+
+http://127.0.0.1
+/var/www/html/
+
+/etc/httpd/conf/httpd.conf
+
+/var/www/html                /这里是 CentOS 默认的“首页”目录；
+/var/www/error               /默认的系统错误信息，主机设置错误或浏览器端要求的数据错误，在浏览器上出现的错误提示就以这里的信息为主
+/var/www/icons               /提供 apache 的一些小图标；
+/var/www/cgi-bin             /默认一些可执行的 CGI 程序放置的目录；
+/var/log/httpd               /日志文件目录，这里的文件很容易变的很大，需要提供足够的空间
+/usr/lib64/httpd/modules/, /etc/httpd/modules/
+/usr/bin/htpasswd (Apache password protection)
+
+
+一台服务器设置多站点
+mkdir /etc/httpd/conf/vhost/

@@ -1,4 +1,4 @@
-=== A
+### A
 ### ant
     ant -f make/build.xml
 
@@ -18,11 +18,21 @@
 
 ### awk
     awk [ -F re] [parameter...] ['prog'] [-f progfile]
-        awk format.
+        The awk format.
+
     awk -F ':' '{print $1 $3}' xxx.txt
         Use ':' to split each line and print field 1 and field 3 of file xxx.txt
 
-=== B
+    awk '{ sum += $7 } END { print sum }' xxx.txt
+        Print summary.
+
+    awk '{ sum += $7 } END { print sum/NR }' xxx.txt
+        Print average.
+
+    awk 'BEGIN {max = 0} {if ($1>max) max=$1 fi} END {print max}' xxx.txt
+        Print max.
+
+### B
 ### brasero
 ### bc
     echo "1.212*3" | bc
@@ -32,7 +42,7 @@
     echo "sqrt(100)" | bc
 
 
-=== C
+### C
 ### cat
     cat 1.txt 2.txt > 3.txt
         Merget 1.txt and 2.txt
@@ -89,7 +99,7 @@
 
 ### cut
 
-=== D
+### D
 ### date
     date +%s
         Show date in seconds
@@ -170,6 +180,15 @@
         -ioengine=psync \
         -bs=512k -size=2G -numjobs=10 -runtime=60 \
         -group_reporting -name=mytest
+
+### free
+    free -h
+        Show memory info.
+    free -h -c 5 -s 3
+        Show memory info with interval=3s and count=5.
+
+        Cached Memory
+            Include pagacache, dentries and inodes, will improve disk IO. Will drop auto when needed. Use "echo 3 > /proc/sys/vm/drop_caches" to drop cache manually.
 
 ### ftp
     ftp <hostname | IP>
@@ -489,7 +508,7 @@
 
 ### mysql
 
-=== N
+### N
 ### nc
     yum install -y nc
 
@@ -521,6 +540,9 @@
         ? : 该符号类型没有定义
 
 ### nmon
+    nmon -ft -s 5 -c 120
+        Start nmon with interval = 5s and count = 120
+
 ### ntpdate
     ntpdate -u ntp.api.bz
 
@@ -984,10 +1006,10 @@
     wget xxx -c -t 10
         Continue from the breakpoint and try 10 times
 
-# 
+### X
 ### xargs
 
-# Y
+### Y
 ### yum
     yum clean
     yum repolist
@@ -1003,6 +1025,8 @@
     yum erase xxx
         remove xxx
 
-# Z
+### Z
 ### zip
     zip -r yinyin.zip yinyin
+        Compress yinyin to yinyin.zip
+

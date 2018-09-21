@@ -1,0 +1,28 @@
+
+sbt is a build tool for Scala, Java, and more. It requires Java 1.8 or later.
+
+# Install sbt
+  1. Install JDK
+  2. Install sbt
+     wget https://piccolo.link/sbt-1.2.1.zip
+     unzip sbt-1.2.1.zip
+
+     export SBT_HOME=/root/sbt
+     export PATH=$PATH:$SBT_HOME/bin
+
+# Edit sbt config file (optional)
+  vim conf/sbtconfig.txt
+
+  -Dsbt.ivy.home=[your dir]/repository
+
+  export SBT_OPTS="-XX:PermSize=64M -XX:MaxPermSize=128M"
+
+# Edit build.sbt
+
+
+# Sbt command
+  sbt clean
+  sbt run
+  sbt compile
+  sbt package
+

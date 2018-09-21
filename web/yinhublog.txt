@@ -1,0 +1,62 @@
+
+apt-get install python3-pip
+pip3 install pygments
+pip3 install Django
+pip3 install psycopg2
+pip3 install markdown
+pip3 install django-markdown-deux
+pip3 install django-blog-zinnia
+
+# sudo pip3 install django-app-namespace-template-loader
+# sudo pip3 install zinnia-theme-bootstrap
+pip3 install gunicorn
+
+apt-get install postgresql-client
+apt-get install postgresql
+
+django-admin startproject yinhublog
+cd yinhublog
+python3 manage.py startapp blogpost
+
+vim yinhublog/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'zinnia',
+    'blogpost',
+]
+
+LANGUAGE_CODE = 'zh-hans'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'yinhublog',
+        'USER': 'jingdian',
+        'PASSWORD': 'jingdian',
+        'HOST': '127.0.0.1',
+        'PORT': 5432
+    }
+}
+
+
+python3 manage.py migrate
+python3 manage.py createsuperuser
+admin/zyxczyf19
+
+
+vim blogpost/models.py
+vim blogpost/admin.py
+
+python3 manage.py makemigrations blogpost
+python3 manage.py sqlmigrate blogpost 0001
+
+python manage.py shell
+
+python3 manage.py runserver 0:8080
+
+sudo ln -s /etc/nginx/sites-available/djangoblog.conf /etc/nginx/sites-enabled/djangoblog.conf
+

@@ -1,0 +1,39 @@
+
+<html>
+<head>
+</head>
+<body>
+
+<div id="testArea">
+	<p id="regrexTest"></p>
+	<p id="lengthTest"></p>
+</div>
+
+<script type="text/javascript">
+
+function regrexTest() {
+	var str = "IBM  IPR-10  0000E0";
+	var re0 = new RegExp(/IPR-\d+/);
+	var re1 = new RegExp(/IPR-/);
+
+	var tmp = str.match(/IPR-\d+/)[0].replace(/IPR-/, "RAID ");
+	document.getElementById("regrexTest").innerHTML = tmp;
+
+}
+
+function lengthTest() {
+	var userInfo = [
+		{"Type":"Mailbox", "UserName":"huxiaoleinz@qq.com"},
+	];
+	document.getElementById("lengthTest").innerHTML = userInfo.length;
+}
+
+function testInterface() {
+	regrexTest();
+	lengthTest();
+}
+
+testInterface();
+</script>
+</body>
+</html>

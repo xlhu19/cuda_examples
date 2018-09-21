@@ -1,0 +1,4 @@
+
+
+1. <div> default is a line
+2. "float:left" can change the display

@@ -1,6 +1,3 @@
-
-
-
 RDD(Resilient Distributed Dataset)
 
 wget https://github.com/apache/spark/archive/v2.2.0.tar.gz

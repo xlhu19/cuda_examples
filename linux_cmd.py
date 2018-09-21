@@ -20,11 +20,10 @@ def get_cmd_text(cmd):
                 flag = not flag
                 continue
 
-            if line == "":
-                color = not color
-                even = not even
-
             if flag == True:
+                if line == "":
+                    color = not color
+                    even = not even
                 if line.startswith(cmd_end):
                     break
                 if even == True:

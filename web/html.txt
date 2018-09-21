@@ -1,0 +1,236 @@
+
+<a>         链接 <a href="xxx"> xxx </a>
+<div>       布局
+<form>      表单
+<html>      限定 HTML 文档开始和结束
+<li>        定义列表的项目，常结合 ol，ul 使用
+<ol>        有序列表
+<p>         段落
+<pre>       预格式化，保留空格和换行，常用于显示计算机源代码
+<ul>        无序列表
+
+
+
+<ol><ul><li>
+<thead>
+<tbody>
+<tfoot>
+<tr>
+<th>
+<td>
+
+html 坐标
+canvas 画图
+
+### background picture
+<body background="capacity.jpg">
+</body>
+如果图像尺寸小于浏览器窗口，那么图像将在整个浏览器窗口进行复制。
+
+<img src="/i/eg_mouse.jpg" width="128" height="128">
+
+----------------------------------------------------------------------------------------------------
+label
+----------------------------------------------------------------------------------------------------
+<label for="male"></label>   | label标签的 for 属性应当与相关元素的 id 属性相同
+----------------------------------------------------------------------------------------------------
+字修饰
+----------------------------------------------------------------------------------------------------
+<a style= 'color:#0072bc; text-decoration : none'/>
+text-decoration参数： 
+none : 　无装饰
+blink : 　闪烁
+underline : 　下划线
+line-through : 　贯穿线
+overline : 　上划线
+
+----------------------------------------------------------------------------------------------------
+自动刷新, no cache
+----------------------------------------------------------------------------------------------------
+<meta http-equiv="refresh" content="15">
+
+<meta http-equiv="pragma" content="no-cache" />
+----------------------------------------------------------------------------------------------------
+
+<html xmlns="">
+
+div
+=====
+standard property: id, class, title, style, dir, lang, xml:lang
+
+ul,li
+
+
+iframe
+<iframe frameborder="1"></iframe>
+<iframe src="js/dashboardusage.html"><iframe>
+
+
+<a href=test.jsp target="_self"><test/a>
+<a href=test.jsp target="_blank"><test/a>
+<a href=test.jsp target="context_view">test</a>
+
+&nbsp;  空格
+&amp;   &
+&lt;       <
+&gt;      >
+&quot;   "
+&qpos;   '
+----------------------------------------------------------------------------------
+<frameset rows="100px,500px">
+  <frame src="" name="overview">
+  <frameset cols="100px,500px">
+  <frame src="command.jsp">
+  <frame src="context.jsp" name="context_view">
+  </frameset>
+</frameset>
+<a href=test.jsp target="context_view">Test</a><br>
+----------------------------------------------------------------------------------
+
+　　<title></title> 设置文档的标题
+　　<h1></h1> 最大的标题
+　　<pre></pre> 预先格式化文本
+　　<u></u> 下划线
+　　<b></b> 黑体字
+　　<i></i> 斜体字
+　　<tt></tt> 打字机风格的字体
+　　<cite></cite> 引用，通常是斜体
+　　<em></em> 强调文本（通常是斜体加黑体）
+　　<strong></strong> 加重文本（通常是斜体加黑体）
+　　<font size="" color=""></font> 设置字体大小从1到7，颜色使用名字或RGB的十六进制值
+　　<BASEFONT></BASEFONT> 基准字体标记
+　　<big></big> 字体加大
+　　<SMALL></SMALL> 字体缩小
+　　<STRIKE></STRIKE> 加删除线
+　　<CODE></CODE> 程式码
+　　<KBD></KBD> 键盘字
+　　<SAMP></SAMP> 范例
+　　<VAR></VAR> 变量
+　　<BLOCKQUOTE></BLOCKQUOTE> 向右缩排
+　　<DFN></DFN> 述语定义
+　　<ADDRESS></ADDRESS> 地址标记
+　　<sup></SUP> 上标字
+　　<SUB></SUB> 下标字
+　　<xmp>...</xmp>；固定宽度字体（在文件中空白、换行、定位功能有效）
+　　<plaintext>...</plaintext>；固定宽度字体（不执行标记符号）
+　　<listing>...</listing> 固定宽度小字体
+　　<font color=00ff00>...</font>；字体颜色
+　　<font size=1>...</font>；最小字体
+　　<font style ='font-size:100 px'>...</font>；无限增大
+　　格式标志标签
+　　<p></p> 创建一个段落
+　　<p align=""> 将段落按左、中、右对齐
+　　<br>换行 插入换行符
+　　<blockquote></blockquote> 从两边缩进文本
+　　<dl></dl> 定义列表
+　　<dt> 放在每个定义术语词前
+　　<dd> 放在每个定义之前
+　　<ol></ol> 创建一个标有数字的列表
+　　<ul></ul> 创建一个标有圆点的列表
+　　<li> 放在每个列表项之前，若在<ol></ol>；之间则每个列表项加上一个数字，
+　　若在<ul></ul>；之间则每个列表项加上一个圆点
+　　<div align=""></div> 用来排版大块HTML段落，也用于格式化表
+　　<MENU> 选项清单
+　　<DIR> 目录清单
+　　<nobr></nobr> 强行不换行
+　　<hr size='9' width='80%' color='ff0000'>；水平线（设定宽度）
+　　
+　　链接标志表格标志
+　　<a href="URL"></a> 创建超文本链接
+　　<a href="mailtEMAIL">
+　　< /a> 创建自动发送电子邮件的链接
+　　<a name="name"></a> 创建位于文档内部的书签
+　　<a href="#name"></a> 创建指向位于文档内部书签的链接
+　　<BASE> 文档中不能被该站点辨识的其它所有链接源的URL
+　　< LINK> 定义一个链接和源之间的相互关系
+<html></html>
+  创建一个HTML文档
+----------------------------------------------------------------------------------
+<a></a>
+  <a href="URL"></a> 创建超文本链接
+<center></center>
+  水平居中
+<div></div>
+<frame></frame>
+<frameset></frameset>
+----------------------------------------------------------------------------------
+<head></head>
+  设置文档标题和其它在网页中不显示的信息。
+<link></link>
+
+<meta>
+  <meta> 标签永远位于 head 元素内部。
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+----------------------------------------------------------------------------------
+<table></table>
+  <tr> <th> <td>
+----------------------------------------------------------------------------------
+<ul></ul>
+<li></li>
+<ol></ol>
+----------------------------------------------------------------------------------
+
+
+
+<pre></pre>
+  pre 元素可定义预格式化的文本。被包围在 pre 元素中的文本通常会保留空格和换行符。
+  而文本也会呈现为等宽字体。<pre> 标签的一个常见应用就是用来表示计算机的源代码。
+----------------------------------------------------------------------------------
+
+
+
+==================================================================================
+form
+==================================================================================
+Text Fields:
+--------------
+<form>
+  First name: 
+    <input type="text" name="firstname" />
+    <br />
+  Last name: 
+    <input type="text" name="lastname" />
+</form>
+--------------
+Radio Buttons:
+--------------
+<form>
+  <input type="radio" name="sex" value="male" /> Male
+  <br />
+  <input type="radio" name="sex" value="female" /> Female
+</form>
+--------------
+Checkboxes
+--------------
+<form>
+  <input type="checkbox" name="bike" />
+    I have a bike
+  <br />
+  <input type="checkbox" name="car" />
+    I have a car
+</form>
+--------------
+actions
+--------------
+<form name="input" action="html_form_action.asp" method="get">
+  Username: 
+  <input type="text" name="user" />
+  <input type="submit" value="Submit" />
+</form>
+
+==================================================================================
+javascript
+----------------------------------------------------------------------------------
+<script type="text/javascript">
+  document.write("Hello World!");
+</script>
+
+
+
+no cache set:
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">

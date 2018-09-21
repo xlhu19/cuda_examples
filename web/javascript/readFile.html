@@ -1,0 +1,36 @@
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ext-all.css">
+    <script type="text/javascript" src="ext-base.js"></script>
+    <script type="text/javascript" src="ext-all.js"></script>
+</head>
+<body>
+<input type="file" id="fileinput"/>
+<script type="text/javascript">
+  function readSingleFile(evt) {
+
+    var f = evt.target.files[0];
+    if (f) {
+      var r = new FileReader();
+      r.onload = function(e) {
+          var contents = e.target.result;
+        alert( "Got the file\n"
+              +"name: " + f.name + "\n"
+              +"type: " + f.type + "\n"
+              +"size: " + f.size + " bytes\n"
+              + "starts with: " + contents.substr(1, contents.indexOf("\n"))
+        );
+
+        alert(contents);
+      }
+      r.readAsText(f);
+    } else {
+      alert("Failed to load file");
+    }
+  }
+  
+  document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+</script>
+</body>
+</html>
