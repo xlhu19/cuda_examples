@@ -8,10 +8,8 @@
 
 class vcommon:
     def vprint(self):
-        print("")
         print("----- %s -----" % (self.__class__.__name__))
         
-
 # Variable Basic
 class python_variable:
     def definition(self):
@@ -33,15 +31,16 @@ class python_number(vcommon):
         self.vprint()
 
     def definition(self):
-        # int
+        # int (python3 has only int, no long int)
         var_a0 = 100
+        var_a1 = 0x2600
 
         # float
         var_b0 = 100.0
 
-        # long
-        var_c0 = 51924361
-        var_c1 = -0x19323
+        # bool
+        var_c0 = True # real value is 1, will be treated as number
+        var_c1 = False # real value is 0, will be treated as number
 
         # complex
         var_d0 = 3.14j
@@ -49,15 +48,31 @@ class python_number(vcommon):
         var_d2 = -.6545+0j
         var_d3 = .876j
         var_d4 = 45.j
+        var_d4 = complex(4,5)
 
     def operation(self):
-        pass
+        var_a0 = 100 # create an object when define
+        var_a0 = 200 # value can not be changed, so this will create another object
+        
+        c0 = var_a0 + 12
+        c1 = var_a0 - 12
+        c2 = var_a0 * 12
+        c3 = var_a0 / 12 # a float
+        c4 = var_a0 // 12 # an int
+        c5 = var_a0 % 12
+        c6 = var_a0 ** 2
+        print("var_a0 + 12 = " + str(c0))
+        print("var_a0 - 12 = " + str(c1))
+        print("var_a0 * 12 = " + str(c2))
+        print("var_a0 / 12 = " + str(c3))
+        print("var_a0 // 12 = " + str(c4))
+        print("var_a0 % 12 = " + str(c5))
+        print("var_a0 ** 2 = " + str(c6))
 
 # String
 class python_string(vcommon):
     def __init__(self):
         self.vprint()
-        print("----- %s -----" % (self.__class__.__name__))
 
     def definition(self):
         s0 = ''
@@ -88,12 +103,13 @@ class python_string(vcommon):
         print(s11)
         print(s12)
 
-    def string_operation(self):
-        var_a0 = 'Hello world!'
+    def operation(self):
+        var_a0 = 'HelloWorld!'
         var_a1 = var_a0 + 'Ni hao!'
         print("var_a0 is : " + var_a0)
         print("var_a0[0] is : " + var_a0[0])
-        print("var_a0[2:5] is : " + var_a0[2:5])
+        print("var_a0[-1] is : " + var_a0[-1])
+        print("var_a0[2:5] is : " + var_a0[2:5]) # [2,5)
         print("var_a0[2:] is : " + var_a0[2:])
         print("var_a0*2 is : " + var_a0 * 2)
         print("var_a1 is : " + var_a1)
@@ -302,30 +318,59 @@ class python_dictionary(vcommon):
 
         # sort_dict1 = sorted(dict1.iteritems(), key = lambda asd:asd[1], reverse=True) # sort by value
 
+class python_type_change(vcommon):
+    def __init__(self):
+        self.vprint()
+    def operation(self):
+        x = '15'
+        y = 20
+        print(type(int(x)))
+        print(int(x))
+        print(float(x))
+        print(str(y))
+        print(hex(y))
+        print(oct(y))
+
+        #repr(x )              
+        #eval(str )
+        #tuple(s )             
+        #list(s )              
+        #chr(x )               
+        #unichr(x )            
+        #ord(x )
 
 if __name__ == "__main__":
     python_variable().definition()
     python_variable().operation()
 
+    # Number
     pnumber = python_number()
     pnumber.definition()
     pnumber.operation()
 
+    # String
     pstring = python_string()
     pstring.definition()
+    pstring.operation()
     pstring.string_strip()
 
+    # Tuple
     ptuple = python_tuple()
     ptuple.definition()
     ptuple.operation()
 
+    # List
     plist= python_list()
     plist.definition()
     plist.operation()
 
+    # Dictionary
     pdict = python_dictionary()
     pdict.definition()
     pdict.operation()
     pdict.dic_has_key()
 
+    # Type
+    ptype = python_type_change()
+    ptype.operation()
 

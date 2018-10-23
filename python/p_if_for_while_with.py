@@ -1,9 +1,6 @@
-
+#!/usr/bin/python3
 
 def base_for():
-#    for iterating_var in sequence:
-#        statements(s)
-
     for letter in 'Python':
         print('Current Letter: ' + letter)
 

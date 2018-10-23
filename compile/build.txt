@@ -43,8 +43,10 @@ Build is comprised of "compile" and "link".
         gcc -c hello.c -o hello.o
 
 
-    build shared library
-        gcc -shared -W,soname,-libhello.so.0 -o libhello.so.0.0.0 hello.o
+    Build static library
+        ar rcs -o libhello.a hello.o
+    Build shared library
+        gcc -shared -W,soname,-libhello.so.0 -o libhello.so hello.o
 
 ### Include Path
     

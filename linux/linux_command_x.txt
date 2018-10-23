@@ -284,7 +284,6 @@
         Show local and remote branch
     git branch <xxx>
         Create local branch xxx
-
     git checkout <xxx>
         Checkout to specific branch xxx
     git branch -d <xxx>
@@ -813,6 +812,10 @@
     ### Without password
         cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     ssh -p $port $user@$p 'cmd'
+        ssh and run command.
+    ssh -CfNg -L A_PORT:B_IP:B_PORT root@A_IP
+        Create a tunnel. The package to A:PORT will be direct to B:PORT.
+        
 
 ### ssh-keygen
     ssh-keygen -t rsa -b 4096 -C "xlhu@cn.ibm.com"
@@ -974,6 +977,10 @@
             Previous file
         :bn
             Next file
+        :set nu
+            Show line number
+        :set nono
+            Not show line number
 
     #### remove 
         :%s///g
