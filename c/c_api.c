@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 /*
   Name      : aligned_alloc
@@ -42,8 +43,21 @@ void rand_test() {
     printf("\n");
 }
 
+/*
+  Name      : sysconf
+  Header    : unistd.h
+  Definition: long sysconf(int name);
+  Function  : 1. get sysconf
+*/
+void sysconf_test() {
+    long num_procs = sysconf(_SC_NPROCESSORS_CONF);
+    long page_sz = sysconf(_SC_PAGESIZE);
+    printf("num_procs %ld page_sz %ld\n", num_procs, page_sz);
+}
+
 void main() {
     aligned_alloc_test();
     rand_test();
+    sysconf_test();
 }
 
