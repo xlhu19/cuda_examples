@@ -1,7 +1,0 @@
-
-
-wget http://archive.apache.org/dist/db/derby/db-derby-10.11.1.1/db-derby-10.11.1.1-bin.tar.gz
-tar -xf db-derby-10.11.1.1-bin.tar.gz
-mkdir -p db-derby-10.11.1.1-bin/data
-cd /home/work/db-derby-10.11.1.1-bin/data
-nohup /home/work/db-derby-10.11.1.1-bin/bin/startNetworkServer -h 0.0.0.0 &
